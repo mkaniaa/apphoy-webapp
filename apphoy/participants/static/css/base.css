@@ -12,6 +12,7 @@ body {
     margin:0;
     font-family:'Roboto', sans-serif;
     font-weight:300;
+    color:#333;
 }
 
 a {
@@ -26,6 +27,7 @@ ul {
 h1, h2, h3, h4, h5, h6 {
     font-family:'Roboto', sans-serif;
     font-weight:300;
+    padding-left: 30px;
 }
 
 .sub-header {
@@ -123,7 +125,7 @@ h1, h2, h3, h4, h5, h6 {
     margin:0 0 10px 0;
     padding:4px 10px 10px;
     overflow:auto;
-    cursor:move;
+    cursor:pointer;
 }
 
 .contents ul li.selected {
@@ -148,7 +150,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .contents ul a:hover {
     color:#4dcc43;
-    cursor:move;
+    cursor:pointer;
 }
 
 ul.content-types li {

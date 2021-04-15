@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if object %}
+        Edit participant data: {{ object.name }} {{ object.surname }}
+    {% else %}
+        Add new participant
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>
+        {% if object %}
+            Edit participant details: {{ object.name }} {{ object.surname }}
+        {% else %}
+            Add new participant
+        {% endif %}
+    </h1>
+    <div class="module">
+        <h2>Participant details</h2>
+        <form action="." method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <p><input type="submit" value="Save"></p>
+        </form>
+    </div>
+{% endblock %}

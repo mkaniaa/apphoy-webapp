@@ -30,3 +30,11 @@ class Participant(models.Model):
     in_fb_group = models.BooleanField(null=True, blank=True)
     fb_nickname = models.CharField(max_length=50, null=True, blank=True)
 
+    @staticmethod
+    def get_field_names(exclude=None):
+        exclude = exclude if exclude else []
+        return [
+            field.name
+            for field in Participant._meta.get_fields()
+            if field.name not in exclude
+        ]
