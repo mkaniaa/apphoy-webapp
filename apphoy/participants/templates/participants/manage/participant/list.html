@@ -11,13 +11,20 @@
     </div>
     <div class="contents">
         <ul id="modules">
-            {% for participant in object_list %}
-                <li>
-                    <a href="{% url "participant_edit" participant.id %}">
-                        {{ participant.name }} {{ participant.surname }}
-                    </a>
-                </li>
-            {% endfor %}
+            {% with fields_names=object_list.model.get_verbose_field_names exclude="ID" %}
+<!--            {% for participant in object_list %}-->
+<!--                <li>-->
+<!--                    <a href="{% url "participant_edit" participant.id %}">-->
+<!--                        {{ participant.name.name }} {{ participant.surname.name }}-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            {% endfor %}-->
+                {% for field_name in fields_names %}
+                    <li>
+                        {{ field_name }}
+                    </li>
+                {% endfor %}
+            {% endwith %}
         </ul>
     </div>
 {% endblock %}
