@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load participant_tags %}
 
 {% block title %}Participants{% endblock %}
 
@@ -9,23 +10,24 @@
             <li><a href="{% url "participant_add" %}">Add</a></li>
         </ul>
     </div>
-    <div class="contents">
-        <ul id="modules">
-            {% with fields_names=object_list.model.get_verbose_field_names exclude="ID" %}
-<!--            {% for participant in object_list %}-->
-<!--                <li>-->
-<!--                    <a href="{% url "participant_edit" participant.id %}">-->
-<!--                        {{ participant.name.name }} {{ participant.surname.name }}-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--            {% endfor %}-->
-                {% for field_name in fields_names %}
-                    <li>
-                        {{ field_name }}
-                    </li>
-                {% endfor %}
-            {% endwith %}
-        </ul>
-    </div>
+    <table class="participants">
+        <tr class="header">
+            {% for h in headers %}
+                <th>{{ h }}</th>
+            {% endfor %}
+        </tr>
+        {% for participant in object_list %}
+        <tr>
+            {% for attr in attributes %}
+                <td>
+                    <a href="{% url "participant_edit" participant.id %}">
+                        {% attribute_value participant attr as attr_value %}
+                        {% if attr_value %}{{ attr_value}}{% else %}&nbsp;{% endif %}
+                    </a>
+                </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
 

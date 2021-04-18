@@ -1,5 +1,4 @@
 from django.db import models
-from django.template.defaulttags import register
 
 
 class Participant(models.Model):
@@ -30,9 +29,9 @@ class Participant(models.Model):
     email = models.EmailField(null=True,
                               blank=True,
                               verbose_name='E-mail')
-    birth_date = models.DateTimeField(null=True,
-                                      blank=True,
-                                      verbose_name='Date of birth')
+    birth_date = models.DateField(null=True,
+                                  blank=True,
+                                  verbose_name='Date of birth')
     nin = models.CharField(max_length=15,
                            null=True,
                            blank=True,
@@ -68,7 +67,6 @@ class Participant(models.Model):
         ]
 
     @staticmethod
-    @register.simple_tag
     def get_verbose_field_names(exclude=None):
         exclude = exclude if exclude else []
         return [
