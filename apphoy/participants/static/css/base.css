@@ -20,62 +20,10 @@ a {
     text-decoration:none;
 }
 
-ul {
-    float:left;
-}
-
 h1, h2, h3, h4, h5, h6 {
     font-family:'Roboto', sans-serif;
     font-weight:300;
     padding-left: 30px;
-}
-
-.sub-header {
-    background:#a4a4a4;
-    font-size: 24px;
-    color: #585858;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.sub-header span {
-    padding: 0px 30px;
-}
-
-.sub-header .toolbar {
-    list-style:none;
-    margin:0;
-    font-size: 18px;
-}
-
-.sub-header .toolbar a {
-    display: inline-block;
-    padding: 14px 30px;
-}
-
-.sub-header .toolbar a:hover {
-    background: #585858;
-    color:#a4a4a4;
-}
-
-.module {
-    padding:10px 20px;
-    float:left;
-    width:600px;
-}
-
-.module h3 {
-    margin:20px 0 0;
-    padding:0;
-    width:100%;
-}
-
-.module p {
-    margin:10px 0 20px;
-    width:100%;
-    float:left;
 }
 
 #header {
@@ -103,6 +51,57 @@ h1, h2, h3, h4, h5, h6 {
     float:right;
     margin:0;
     padding:0;
+}
+
+.sub-header {
+    background:#a4a4a4;
+    font-size: 24px;
+    color: #585858;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sub-header span {
+    padding: 0px 30px;
+}
+
+.sub-header ul {
+    list-style:none;
+    margin:0;
+    font-size: 18px;
+}
+
+.sub-header li {
+    float: right;
+}
+
+.sub-header button {
+    display: inline-block;
+    padding: 14px 30px;
+    cursor: pointer;
+    border: none;
+    background-color: #a4a4a4;
+    color: #585858;
+}
+
+.sub-header button:hover:not([disabled]) {
+    background-color: #585858;
+    color: #a4a4a4;
+}
+
+.sub-header button:disabled,
+.sub-header button[disabled] {
+    color: white;
+    cursor: context-menu;
+    opacity: 0.5;
+}
+
+.sub-header button:disabled a,
+.sub-header button[disabled] a {
+    color: white;
+    cursor: context-menu;
 }
 
 .participants {
