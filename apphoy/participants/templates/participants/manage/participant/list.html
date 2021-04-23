@@ -19,12 +19,12 @@
             {% endfor %}
         </tr>
         {% for participant in object_list %}
-        <tr onclick="window.location='{% url "participant_edit" participant.id %}';">
+        <tr>
             <td>
                 <input type="checkbox"  id="selector"/>
             </td>
             {% for attr in attributes %}
-                <td>
+                <td onclick="window.location='{% url "participant_edit" participant.id %}';">
                     {% attribute_value participant attr as attr_value %}
                     {% if attr_value %}{{ attr_value}}{% else %}&nbsp;{% endif %}
                 </td>
