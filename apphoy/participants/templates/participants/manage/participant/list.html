@@ -13,15 +13,17 @@
     </div>
     <table class="participants">
         <tr class="header">
-            <th>&nbsp;</th>
+            <th>
+                <input type="checkbox"  id="select-all"/>
+            </th>
             {% for h in headers %}
                 <th>{{ h }}</th>
             {% endfor %}
         </tr>
         {% for participant in object_list %}
         <tr>
-            <td>
-                <input type="checkbox"  id="selector"/>
+            <td class="check-cell">
+                <input type="checkbox" />
             </td>
             {% for attr in attributes %}
                 <td onclick="window.location='{% url "participant_edit" participant.id %}';">
@@ -35,10 +37,14 @@
 {% endblock %}
 {% block domready %}
     var checkboxes = $("input[type='checkbox']"),
-        removeButt = $("#group-remove");
+        removeButt = $("#group-remove"),
+        selectAllCheck = $("#select-all");
 
+    selectAllCheck.click(function() {
+        checkboxes.not(this).prop("checked", this.checked);
+    });
     checkboxes.click(function() {
-        removeButt.attr("disabled", !checkboxes.is(":checked"));
+        removeButt.prop("disabled", !checkboxes.is(":checked"));
     });
 {% endblock %}
 

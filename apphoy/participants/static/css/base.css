@@ -141,17 +141,18 @@ h1, h2, h3, h4, h5, h6 {
 
 .participant-form input[type=text], input[type=email], select {
     width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
+    padding: 6px 10px;
+    margin: 4px 0;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
 }
 
-.participant-form input[type=submit] {
+.participant-form input[type=submit], #cancel {
+    display: inline-block;
     width: 100%;
-    background-color: #4CAF50;
+    background-color: #a4a4a4;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -160,12 +161,17 @@ h1, h2, h3, h4, h5, h6 {
     cursor: pointer;
 }
 
-.participant-form input[type=submit]:hover {
-  background-color: #45a049;
+.participant-form input[type=submit]:hover, #cancel:hover {
+  background-color: #585858;
 }
 
 .participant-form {
-  border-radius: 5px;
+  border-radius: 2px;
   background-color: #f2f2f2;
   padding: 20px;
+}
+
+.check-cell {
+  text-align: center;
+  vertical-align: middle;
 }
