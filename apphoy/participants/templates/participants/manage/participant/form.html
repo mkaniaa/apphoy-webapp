@@ -21,8 +21,10 @@
         <form action="." method="post">
             {{ form.as_p }}
             {% csrf_token %}
-            <p><input type="submit" value="Save"></p>
-            <p><a href="/" id="cancel">Cancel</a></p>
+            <div class="form-buttons">
+                <input type="submit" value="Save">
+                <a href="/" id="cancel">Cancel</a>
+            </div>
         </form>
     </div>
 {% endblock %}
