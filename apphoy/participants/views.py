@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.contrib import messages
+from django.views import View
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
 
 from .models import Participant
 
@@ -17,6 +18,16 @@ class ParticipantListView(ListView):
         context['headers'] = headers
         context['attributes'] = attributes
         return context
+
+    def post(self, request, participant_id):
+        return ParticipantDeleteView.as_view()(participant_id)
+
+
+class ParticipantDeleteView(View):
+    def post(self, request, participant_id):
+        participant = get_object_or_404(Participant, id=participant_id)
+        participant.delete()
+        return redirect('participant_list')
 
 
 class ManageParticipantMixin(LoginRequiredMixin, PermissionRequiredMixin):
@@ -35,9 +46,3 @@ class ParticipantEditView(ManageParticipantMixin,
                           UpdateView):
     template_name = 'participants/manage/participant/form.html'
     permission_required = 'participant.change_participant'
-
-
-class ParticipantDeleteView(ManageParticipantMixin,
-                            DeleteView):
-    template_name = 'participants/manage/participant/delete.html'
-    permission_required = 'participant.delete_participant'

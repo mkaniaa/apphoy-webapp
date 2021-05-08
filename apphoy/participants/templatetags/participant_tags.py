@@ -9,3 +9,8 @@ def attribute_value(obj, attr_name):
         return getattr(obj, attr_name)
     except AttributeError:
         return None
+
+
+@register.filter
+def set_participant_id(participant_id):
+    return participant_id

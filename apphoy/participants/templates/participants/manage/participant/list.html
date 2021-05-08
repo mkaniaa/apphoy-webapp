@@ -6,10 +6,15 @@
 {% block content %}
     <div class="sub-header">
         <span>Participants</span>
-        <ul>
-            <li><a href="#"><button id="group-remove" disabled>Remove</button></a></li>
-            <li><a href="{% url "participant_add" %}"><button>Add</button></a></li>
-        </ul>
+            <form id="remove-form" action="{% url "participant_delete" 0 %}" method="post">
+                <ul>
+                    <li>
+                        <input type="submit" value="Remove">
+                        {% csrf_token %}
+                    </li>
+                    <li><a href="{% url "participant_add" %}"><button>Add</button></a></li>
+                </ul>
+            </form>
     </div>
     <table class="participants">
         <tr class="header">
@@ -23,7 +28,7 @@
         {% for participant in object_list %}
         <tr>
             <td class="check-cell">
-                <input type="checkbox" />
+                <input type="checkbox" id="{{ participant.id }}"/>
             </td>
             {% for attr in attributes %}
                 <td onclick="window.location='{% url "participant_edit" participant.id %}';">
@@ -38,13 +43,22 @@
 {% block domready %}
     var checkboxes = $("input[type='checkbox']"),
         removeButt = $("#group-remove"),
-        selectAllCheck = $("#select-all");
+        selectAllCheck = $("#select-all"),
+        deleteForm = $("#remove-form");
 
     selectAllCheck.click(function() {
         checkboxes.not(this).prop("checked", this.checked);
     });
     checkboxes.click(function() {
         removeButt.prop("disabled", !checkboxes.is(":checked"));
+        if ($(this).prop("checked") == true) {
+            var newId = $(this).prop("id"),
+                newAction = "participant/" + newId + "/delete/",
+                newOnSubmit = "return confirm('Are you sure you want to delete a participant with id " + newId + "?')";
+            deleteForm.attr('action', newAction);
+            deleteForm.attr('onsubmit', newOnSubmit);
+            console.log('newAction = ' + newAction);
+        };
     });
 {% endblock %}
 
