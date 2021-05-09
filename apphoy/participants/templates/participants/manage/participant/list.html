@@ -7,14 +7,14 @@
     <div class="sub-header">
         <span>Participants</span>
         <ul>
-            <li><a href="#"><button id="group-remove" disabled>Remove</button></a></li>
+            <li><a href="#"><button id="group-remove" type="submit" disabled>Remove</button></a></li>
             <li><a href="{% url "participant_add" %}"><button>Add</button></a></li>
         </ul>
     </div>
     <table class="participants">
         <tr class="header">
             <th>
-                <input type="checkbox"  id="select-all"/>
+                <input type="checkbox" id="select-all"/>
             </th>
             {% for h in headers %}
                 <th>{{ h }}</th>
@@ -23,7 +23,7 @@
         {% for participant in object_list %}
         <tr>
             <td class="check-cell">
-                <input type="checkbox" />
+                <input type="checkbox" value="{{ participant.id }}"/>
             </td>
             {% for attr in attributes %}
                 <td onclick="window.location='{% url "participant_edit" participant.id %}';">
@@ -37,14 +37,28 @@
 {% endblock %}
 {% block domready %}
     var checkboxes = $("input[type='checkbox']"),
-        removeButt = $("#group-remove"),
+        removeButton = $("#group-remove"),
         selectAllCheck = $("#select-all");
 
     selectAllCheck.click(function() {
         checkboxes.not(this).prop("checked", this.checked);
     });
     checkboxes.click(function() {
-        removeButt.prop("disabled", !checkboxes.is(":checked"));
+        removeButton.prop("disabled", !checkboxes.is(":checked"));
+    });
+    const pluralize = (count, noun, suffix = 's') =>
+      `${count} ${noun}${count !== 1 ? suffix : ''}`;
+    removeButton.click(function() {
+        var ids = [];
+        $(':checkbox:checked').each(function(i) {
+            ids[i] = $(this).val();
+        });
+        var count = ids.length;
+        if(count > 0) {
+            if (confirm("Are you sure you want to remove " + count + " " + pluralize(count, 'participant') + "?")) {
+                console.log(ids);
+            }
+        }
     });
 {% endblock %}
 
