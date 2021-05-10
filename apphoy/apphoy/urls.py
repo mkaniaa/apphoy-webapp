@@ -19,8 +19,8 @@ from django.contrib.auth import views as auth_views
 from participants.views import ParticipantListView
 
 urlpatterns = [
-    path('accounts/login', auth_views.LoginView.as_view(), name='login'),
-    path('accounts/logout', auth_views.LogoutView.as_view(), name='logout'),
+    path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
+    path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
     path('', ParticipantListView.as_view(), name='participant_list'),
     path('participant/', include('participants.urls')),

@@ -21,7 +21,7 @@
             {% endfor %}
         </tr>
         {% for participant in object_list %}
-        <tr>
+        <tr id="{{ participant.id }}">
             <td class="check-cell">
                 <input type="checkbox" value="{{ participant.id }}"/>
             </td>
@@ -46,8 +46,7 @@
     checkboxes.click(function() {
         removeButton.prop("disabled", !checkboxes.is(":checked"));
     });
-    const pluralize = (count, noun, suffix = 's') =>
-      `${count} ${noun}${count !== 1 ? suffix : ''}`;
+    const pluralize = (count, noun, suffix = 's') => `${noun}${count !== 1 ? suffix : ''}`;
     removeButton.click(function() {
         var ids = [];
         $(':checkbox:checked').each(function(i) {
@@ -56,7 +55,18 @@
         var count = ids.length;
         if(count > 0) {
             if (confirm("Are you sure you want to remove " + count + " " + pluralize(count, 'participant') + "?")) {
-                console.log(ids);
+                $.ajax({
+                    url: '',
+                    method: "POST",
+                    data: { ids },
+                    success: function(response) {
+                        for(var i=0; i < ids.length; i++) {
+                            var removedRow = $('tr#' + id[i] + '');
+                            removedRow.css('background-color', '#ccc');
+                            removedRow.fadeOut('slow');
+                        }
+                    }
+                });
             }
         }
     });
