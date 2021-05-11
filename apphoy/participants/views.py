@@ -19,14 +19,16 @@ class ParticipantListView(ListView):
         context['attributes'] = attributes
         return context
 
-    def post(self, request, participant_id):
-        return ParticipantDeleteView.as_view()(participant_id)
+    def post(self, request):
+        return ParticipantDeleteView.as_view()(request)
 
 
 class ParticipantDeleteView(View):
-    def post(self, request, participant_id):
-        participant = get_object_or_404(Participant, id=participant_id)
-        participant.delete()
+    def post(self, request, *args, **kwargs):
+        participant_ids = request.POST.getlist('ids[]')
+        for participant_id in participant_ids:
+            participant = get_object_or_404(Participant, id=participant_id)
+            participant.delete()
         return redirect('participant_list')
 
 

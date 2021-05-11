@@ -55,18 +55,16 @@
         var count = ids.length;
         if(count > 0) {
             if (confirm("Are you sure you want to remove " + count + " " + pluralize(count, 'participant') + "?")) {
-                $.ajax({
-                    url: '',
-                    method: "POST",
-                    data: { ids },
-                    success: function(response) {
-                        for(var i=0; i < ids.length; i++) {
-                            var removedRow = $('tr#' + id[i] + '');
+                $.post('',
+                    { ids },
+                    function(response) {
+                        for(var i=0; i < count; i++) {
+                            var removedRow = $('tr#' + ids[i]);
                             removedRow.css('background-color', '#ccc');
                             removedRow.fadeOut('slow');
                         }
                     }
-                });
+                );
             }
         }
     });
