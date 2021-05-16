@@ -1,17 +1,17 @@
 {% extends "base.html" %}
-{% load participant_tags %}
+{% load person_tags %}
 
-{% block title %}Participants{% endblock %}
+{% block title %}Persons{% endblock %}
 
 {% block content %}
     <div class="sub-header">
-        <span>Participants</span>
+        <span>Persons</span>
         <ul>
             <li><a href="#"><button id="group-remove" type="submit" disabled>Remove</button></a></li>
-            <li><a href="{% url "participant_add" %}"><button>Add</button></a></li>
+            <li><a href="{% url "person_add" %}"><button>Add</button></a></li>
         </ul>
     </div>
-    <table class="participants">
+    <table class="persons">
         <tr class="header">
             <th>
                 <input type="checkbox" id="select-all"/>
@@ -20,18 +20,22 @@
                 <th>{{ h }}</th>
             {% endfor %}
         </tr>
-        {% for participant in object_list %}
-        <tr id="{{ participant.id }}">
-            <td class="check-cell">
-                <input type="checkbox" value="{{ participant.id }}"/>
-            </td>
-            {% for attr in attributes %}
-                <td onclick="window.location='{% url "participant_edit" participant.id %}';">
-                    {% attribute_value participant attr as attr_value %}
-                    {% if attr_value %}{{ attr_value}}{% else %}&nbsp;{% endif %}
+        {% for person in object_list %}
+            <tr id="{{ person.id }}">
+                <td class="check-cell">
+                    <input type="checkbox" value="{{ person.id }}"/>
                 </td>
-            {% endfor %}
-        </tr>
+                {% for attr in attributes %}
+                    <td onclick="window.location='{% url "person_edit" person.id %}';">
+                        {% attribute_value person attr as attr_value %}
+                        {% if attr_value %}{{ attr_value}}{% else %}&nbsp;{% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="{{ headers|length|add:"1" }}" class="no-result"><p>No persons in the database.</p></td>
+            </tr>
         {% endfor %}
     </table>
 {% endblock %}
@@ -54,7 +58,7 @@
         });
         var count = ids.length;
         if(count > 0) {
-            if (confirm("Are you sure you want to remove " + count + " " + pluralize(count, 'participant') + "?")) {
+            if (confirm("Are you sure you want to remove " + count + " " + pluralize(count, 'person') + "?")) {
                 $.post('',
                     { ids },
                     function(response) {

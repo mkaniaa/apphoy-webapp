@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Participant(models.Model):
+class Person(models.Model):
     WOMAN = 'W'
     MAN = 'M'
     T_SHIRT_CUT_CHOICES = [
@@ -56,21 +56,3 @@ class Participant(models.Model):
                                    null=True,
                                    blank=True,
                                    verbose_name='Nickname on Facebook')
-
-    @staticmethod
-    def get_field_names(exclude=None):
-        exclude = exclude if exclude else []
-        return [
-            field.name
-            for field in Participant._meta.get_fields()
-            if field.name not in exclude
-        ]
-
-    @staticmethod
-    def get_verbose_field_names(exclude=None):
-        exclude = exclude if exclude else []
-        return [
-            field.verbose_name
-            for field in Participant._meta.get_fields()
-            if field.verbose_name not in exclude
-        ]
