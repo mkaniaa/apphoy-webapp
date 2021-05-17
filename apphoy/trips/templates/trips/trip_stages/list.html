@@ -5,6 +5,18 @@
 {% endblock %}
 
 {% block content %}
+    <div class="sub-header">
+        <div id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span>Trips</span>
+        <ul>
+            <li><a href="#"><button id="group-remove" type="submit" disabled>Remove</button></a></li>
+            <li><a href="{% url "person_add" %}"><button>Add</button></a></li>
+        </ul>
+    </div>
     <h1>
         Stages of the trip: {{ trip.name }}
     </h1>

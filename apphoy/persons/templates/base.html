@@ -40,6 +40,9 @@
         $(document).ready(function() {
             {% block domready %}
             {% endblock %}
+            $('#hamburger').click(function(){
+                $(this).toggleClass('open');
+            });
         });
     </script>
 </body>
