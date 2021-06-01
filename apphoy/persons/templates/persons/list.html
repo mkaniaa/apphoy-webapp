@@ -1,24 +1,42 @@
 {% extends "base.html" %}
+{% load static %}
 {% load person_tags %}
 
 {% block title %}Persons{% endblock %}
 
 {% block content %}
-    <div class="sub-header">
-        <div id="hamburger-combo">
-            <div id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <span class="hamburger-choice">Persons</span>
+	<header class="sub-header">
+        <div class="custom-select">
+            <span class="custom-arrow"></span>
+            <select>
+                <option value="">option 1</option>
+                <option value="">option 2</option>
+                <option value="">option 3</option>
+                <option value="">option 4</option>
+                <option value="">option 5</option>
+                <option value="">option 6</option>
+            </select>
         </div>
         <ul>
             <li><a href="#"><button id="group-remove" type="submit" disabled>Remove</button></a></li>
             <li><a href="{% url "person_add" %}"><button>Add</button></a></li>
         </ul>
-    </div>
+	</header>
+<!--    <div class="sub-header">-->
+<!--        <div id="hamburger-combo">-->
+<!--            <div id="hamburger">-->
+<!--                <span></span>-->
+<!--                <span></span>-->
+<!--                <span></span>-->
+<!--                <span></span>-->
+<!--            </div>-->
+<!--            <span class="hamburger-choice">Persons</span>-->
+<!--        </div>-->
+<!--        <ul>-->
+<!--            <li><a href="#"><button id="group-remove" type="submit" disabled>Remove</button></a></li>-->
+<!--            <li><a href="{% url "person_add" %}"><button>Add</button></a></li>-->
+<!--        </ul>-->
+<!--    </div>-->
     <table class="persons">
         <tr class="header">
             <th>
@@ -81,4 +99,3 @@
         }
     });
 {% endblock %}
-

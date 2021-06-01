@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <title>{% block title %}AppHoy{% endblock %}</title>
     <link href="{% static "css/base.css" %}" rel="stylesheet">
+    <link href="{% static "css/select-menu.css" %}" rel="stylesheet">
 </head>
 <body>
     <div id="header">
@@ -25,18 +26,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="{% static 'js/csrf.js' %}"></script>
     <script>
-        var csrftoken = Cookies.get('csrftoken');
-        function csrfSafeMethod(method) {
-            return(/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-        }
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            }
-        });
         $(document).ready(function() {
             {% block domready %}
             {% endblock %}

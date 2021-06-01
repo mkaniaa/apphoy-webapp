@@ -1,0 +1,57 @@
+@import "base.css";
+
+select {
+    font-family:'Roboto', sans-serif;
+    font-size: 1.2rem;
+    font-weight:400;
+    padding: 0 0 0 2em;
+    background: #a4a4a4;
+    color: #585858;
+    border: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.custom-select {
+    position: relative;
+}
+
+.custom-arrow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    background: #a4a4a4;
+    height: 100%;
+    width: 1em;
+    pointer-events: none;
+    padding: 0 0.5em 0em 0em;
+}
+
+.custom-arrow::before,
+.custom-arrow::after {
+    --size: 0.3em;
+
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.custom-arrow::before {
+    border-left: var(--size) solid transparent;
+    border-right: var(--size) solid transparent;
+    border-bottom: var(--size) solid #585858;
+    top: 40%;
+}
+
+.custom-arrow::after {
+    border-left: var(--size) solid transparent;
+    border-right: var(--size) solid transparent;
+    border-top: var(--size) solid #585858;
+    top: 60%;
+}
