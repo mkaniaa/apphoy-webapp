@@ -7,9 +7,9 @@
 {% block content %}
 	<header class="sub-header">
         <div class="custom-select">
-            <select>
-                <option value=""><a href="{% url "person_list" %}">Persons</a></option>
-                <option value=""><a href="{% url "trip_stages_list" %}">Trips</a></option>
+            <select onChange="window.location.href=this.value">
+                <option selected value="{% url "person_list" %}">Persons</option>
+                <option value="{% url "trip_stages_list" %}">Trips</option>
             </select>
         </div>
         <ul>
