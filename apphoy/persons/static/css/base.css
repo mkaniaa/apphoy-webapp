@@ -75,7 +75,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .sub-header button {
     display: inline-block;
-    padding: 14px 30px;
+    padding: 1.15em;
     cursor: pointer;
     border: none;
     background-color: #a4a4a4;
@@ -135,7 +135,7 @@ h1, h2, h3, h4, h5, h6 {
     white-space: nowrap;
 }
 
-.person-form input[type=text], input[type=email], select {
+.person-form input[type=text], input[type=email] {
     width: 100%;
     padding: 6px 10px;
     margin: 4px 0;

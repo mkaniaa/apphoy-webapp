@@ -7,14 +7,9 @@
 {% block content %}
 	<header class="sub-header">
         <div class="custom-select">
-            <span class="custom-arrow"></span>
             <select>
-                <option value="">option 1</option>
-                <option value="">option 2</option>
-                <option value="">option 3</option>
-                <option value="">option 4</option>
-                <option value="">option 5</option>
-                <option value="">option 6</option>
+                <option value=""><a href="{% url "person_list" %}">Persons</a></option>
+                <option value=""><a href="{% url "trip_stages_list" %}">Trips</a></option>
             </select>
         </div>
         <ul>
@@ -22,21 +17,6 @@
             <li><a href="{% url "person_add" %}"><button>Add</button></a></li>
         </ul>
 	</header>
-<!--    <div class="sub-header">-->
-<!--        <div id="hamburger-combo">-->
-<!--            <div id="hamburger">-->
-<!--                <span></span>-->
-<!--                <span></span>-->
-<!--                <span></span>-->
-<!--                <span></span>-->
-<!--            </div>-->
-<!--            <span class="hamburger-choice">Persons</span>-->
-<!--        </div>-->
-<!--        <ul>-->
-<!--            <li><a href="#"><button id="group-remove" type="submit" disabled>Remove</button></a></li>-->
-<!--            <li><a href="{% url "person_add" %}"><button>Add</button></a></li>-->
-<!--        </ul>-->
-<!--    </div>-->
     <table class="persons">
         <tr class="header">
             <th>

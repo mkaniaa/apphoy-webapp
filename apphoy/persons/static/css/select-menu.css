@@ -4,8 +4,8 @@ select {
     font-family:'Roboto', sans-serif;
     font-size: 1.2rem;
     font-weight:400;
-    padding: 0 0 0 2em;
-    background: #a4a4a4;
+    padding: 0.6em 0.2em 0.6em 2em;
+    background: rgba(0,0,0,0);
     color: #585858;
     border: 0;
     -webkit-appearance: none;
@@ -15,22 +15,25 @@ select {
 
 .custom-select {
     position: relative;
+    padding: 0 0.3em 0 0.3em;
 }
 
-.custom-arrow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    background: #a4a4a4;
-    height: 100%;
-    width: 1em;
-    pointer-events: none;
-    padding: 0 0.5em 0em 0em;
+.custom-select:hover {
+    background-color: #585858;
+    cursor: pointer;
 }
 
-.custom-arrow::before,
-.custom-arrow::after {
+.custom-select option:hover {
+    cursor: pointer;
+}
+
+select:hover {
+    color: #a4a4a4;
+    cursor: pointer;
+}
+
+.custom-select::before,
+.custom-select::after {
     --size: 0.3em;
 
     content: '';
@@ -38,20 +41,29 @@ select {
     width: 0;
     height: 0;
 
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left: 0.6em;
+    transform: translate(0, -50%);
 }
 
-.custom-arrow::before {
+.custom-select::before {
     border-left: var(--size) solid transparent;
     border-right: var(--size) solid transparent;
     border-bottom: var(--size) solid #585858;
-    top: 40%;
+    top: 35%;
 }
 
-.custom-arrow::after {
+.custom-select:hover::before {
+    border-bottom-color: #a4a4a4;
+}
+
+.custom-select::after {
     border-left: var(--size) solid transparent;
     border-right: var(--size) solid transparent;
     border-top: var(--size) solid #585858;
     top: 60%;
+}
+
+
+.custom-select:hover::after {
+    border-top-color: #a4a4a4;
 }
