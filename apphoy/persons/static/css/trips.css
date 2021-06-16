@@ -1,0 +1,27 @@
+@import "base.css";
+
+.trips-flex {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+}
+
+.trips-list {
+    width: 20rem;
+    background: #585858;
+    color: white;
+    list-style: none;
+}
+
+.trips-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.trip-stages {
+    flex-grow: 1;
+}
+
+.trip-stages p {
+    text-align: center;
+}

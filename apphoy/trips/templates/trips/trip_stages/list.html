@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}
-        Stages of the trip: {{ trip.name }}
-{% endblock %}
+{% block title %}Trips{% endblock %}
 
 {% block content %}
 	<header class="sub-header">
@@ -13,31 +11,29 @@
             </select>
         </div>
 	</header>
-    <h1>
-        Stages of the trip: {{ trip.name }}
-    </h1>
-    <div class="contents">
-        <h3>Trips:</h3>
-        <ul id="modules">
-            {% for t in trips %}
-                <li {% if trip == t %}class="selected"{% endif %}>
-                    <a href="{% url "trip_stage_list_item" t.slug %}">
-                        {{ t.name }}
-                        <br><span>{{ t.total_stages }} stage{{ s.total_courses|pluralize:"s" }}.</span>
-                    </a>
-                </li>
+    <div class="trips-flex">
+        <div class="trips-list">
+            <ul id="modules">
+                {% for t in trips %}
+                    <li {% if trip == t %}class="selected"{% endif %}>
+                        <a href="{% url "trip_stage_list_item" t.slug %}">
+                            {{ t.name }}
+                            <br><span>{{ t.total_stages }} stage{{ s.total_courses|pluralize:"s" }}.</span>
+                        </a>
+                    </li>
+                {% empty %}
+                    <li class="no-result">
+                        No trips in the database.
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="trip-stages">
+            {% for stage in trip_stages %}
+                <h3><a href="{% url "trip_stage_detail" stage.slug %}">{{ stage.name }}</a></h3>
             {% empty %}
-                <li class="no-result">
-                    No trips in the database.
-                </li>
+                <p>No stages for this trip.</p>
             {% endfor %}
-        </ul>
-    </div>
-    <div class="module">
-        {% for stage in trip_stages %}
-            <h3><a href="{% url "trip_stage_detail" stage.slug %}">{{ stage.name }}</a></h3>
-        {% empty %}
-            <h3>No stages for this trip.</h3>
-        {% endfor %}
+        </div>
     </div>
 {% endblock %}

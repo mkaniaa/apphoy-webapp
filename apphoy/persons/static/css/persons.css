@@ -1,0 +1,84 @@
+@import "base.css";
+
+.persons {
+  border-collapse: collapse;
+  width: 100%;
+  font-size:14px;
+  empty-cells: show;
+}
+
+.persons td, .persons th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.persons tr:nth-child(even){background-color: #f2f2f2;}
+
+.persons tr:hover {
+    background-color: #ddd;
+    cursor:pointer;
+}
+
+.persons .header {
+  background:linear-gradient(to bottom right, #6ee2f5, #4c3ec9);
+}
+
+.persons th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  color: white;
+  font-weight:300;
+}
+
+.persons tr td {
+    white-space: nowrap;
+}
+
+.person-form input[type=text], input[type=email] {
+    width: 100%;
+    padding: 6px 10px;
+    margin: 4px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.person-form input[type=submit]:hover, #cancel:hover {
+  background-color: #585858;
+}
+
+.person-form {
+  border-radius: 2px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.check-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.form-buttons {
+    display: flex;
+}
+
+.form-buttons input[type=submit], #cancel {
+    width: 100%;
+    background-color: #a4a4a4;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    font-family:'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight:300;
+}
+
+.no-result {
+    text-align: center;
+}
