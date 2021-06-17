@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if object %}
+        Edit trip: {{ object.name }}
+    {% else %}
+        Add new trip
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>
+        {% if object %}
+            Edit trip details: {{ object.name }}
+        {% else %}
+            Add new trip
+        {% endif %}
+    </h1>
+    <div class="person-form">
+        <h2>Participant details</h2>
+        <form action="." method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <div class="form-buttons">
+                <input type="submit" value="Save">
+                <a href="/" id="cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block domready %}
+    $("#id_birth_date").datepicker({
+        showButtonPanel: true,
+        changeMonth: true,
+        changeYear: true,
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        yearRange: "-90:+0"
+    });
+{% endblock %}

@@ -7,7 +7,7 @@
 }
 
 .trips-list {
-    width: 20rem;
+    flex-basis: 25%;
     background: #585858;
     color: white;
     list-style: none;
@@ -19,7 +19,7 @@
 }
 
 .trip-stages {
-    flex-grow: 1;
+    flex-basis: 75%;
 }
 
 .trip-stages p {

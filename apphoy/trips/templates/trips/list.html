@@ -7,13 +7,17 @@
         <div class="custom-select">
             <select onChange="window.location.href=this.value">
                 <option value="{% url "person_list" %}">Persons</option>
-                <option selected value="{% url "trip_stages_list" %}">Trips</option>
+                <option selected value="{% url "trip_list" %}">Trips</option>
             </select>
         </div>
 	</header>
     <div class="trips-flex">
         <div class="trips-list">
-            <ul id="modules">
+            <ul>
+                <li><a href="#"><button>Sort by</button></a></li>
+                <li><a href="{% url "trip_add" %}"><button>Add trip</button></a></li>
+            </ul>
+            <ul>
                 {% for t in trips %}
                     <li {% if trip == t %}class="selected"{% endif %}>
                         <a href="{% url "trip_stage_list_item" t.slug %}">
