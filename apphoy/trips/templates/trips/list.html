@@ -20,9 +20,8 @@
             <ul>
                 {% for t in trips %}
                     <li {% if trip == t %}class="selected"{% endif %}>
-                        <a href="{% url "trip_stage_list_item" t.slug %}">
+                        <a href="">
                             {{ t.name }}
-                            <br><span>{{ t.total_stages }} stage{{ s.total_courses|pluralize:"s" }}.</span>
                         </a>
                     </li>
                 {% empty %}

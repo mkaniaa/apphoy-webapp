@@ -13,7 +13,7 @@ class Trip(models.Model):
 
 
 class TripStage(models.Model):
-    trip = models.ForeignKey(Trip, related_name='trip_stages', on_delete=models.CASCADE)
+    trip = models.ForeignKey(Trip, related_name='stages', on_delete=models.CASCADE)
     number = models.PositiveIntegerField()
     start_date = models.DateField(null=True,
                                   blank=True,

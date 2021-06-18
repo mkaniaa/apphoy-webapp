@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from apphoy.models import get_field_names
+from .models import Person
+
+
+@admin.register(Person)
+class PersonAdmin(admin.ModelAdmin):
+    list_display = get_field_names(Person, exclude=['id'])

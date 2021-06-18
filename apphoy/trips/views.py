@@ -10,13 +10,13 @@ from apphoy.models import get_field_names
 from .models import Trip, TripStage
 
 
-class TripStageListView(TemplateResponseMixin, View):
-    model = TripStage
+class TripListView(TemplateResponseMixin, View):
+    model = Trip
     template_name = 'trips/list.html'
 
     def get(self, request, trip_slug=None):
         if trip_slug is None:
-            first_trip = TripStage.objects.first()
+            first_trip = Trip.objects.first()
             if first_trip:
                 trip_slug = first_trip.slug
                 trip = get_object_or_404(Trip, slug=trip_slug)
@@ -25,7 +25,7 @@ class TripStageListView(TemplateResponseMixin, View):
         else:
             trip = get_object_or_404(Trip, slug=trip_slug)
 
-        trips = Trip.objects.annotate(total_stages=Count('stages'))
+        trips = Trip.objects.all()
         trip_stages = TripStage.objects.filter(trip=trip)
 
         return self.render_to_response({'trips': trips,
@@ -35,7 +35,7 @@ class TripStageListView(TemplateResponseMixin, View):
 
 class ManageTripMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Trip
-    fields = get_field_names(model, exclude=['id'])
+    fields = get_field_names(model, exclude=['id', 'stages'])
     success_url = reverse_lazy('trip_list')
 
 
