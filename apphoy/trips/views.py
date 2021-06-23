@@ -1,20 +1,25 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db.models import Count
+from django.forms import modelform_factory
 from django.shortcuts import get_object_or_404, redirect
+from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, FormView
 from django.views.generic.base import TemplateResponseMixin
 
 from apphoy.models import get_field_names
+from .forms import TripCreateForm
 from .models import Trip, TripStage
 
 
-class TripListView(TemplateResponseMixin, View):
+class TripListView(CreateView):
     model = Trip
     template_name = 'trips/list.html'
+    form_class = TripCreateForm
+    success_url = '/trips/'
 
-    def get(self, request, trip_slug=None):
+    def get_context_data(self, trip_slug=None, **kwargs):
         if trip_slug is None:
             first_trip = Trip.objects.first()
             if first_trip:
@@ -28,9 +33,12 @@ class TripListView(TemplateResponseMixin, View):
         trips = Trip.objects.all()
         trip_stages = TripStage.objects.filter(trip=trip)
 
-        return self.render_to_response({'trips': trips,
-                                        'trip': trip,
-                                        'trip_stages': trip_stages})
+        context = super(TripListView, self).get_context_data(**kwargs)
+        context['trips'] = trips
+        context['trip'] = trip
+        context['trip_stages'] = trip_stages
+
+        return context
 
 
 class ManageTripMixin(LoginRequiredMixin, PermissionRequiredMixin):
@@ -40,7 +48,6 @@ class ManageTripMixin(LoginRequiredMixin, PermissionRequiredMixin):
 
 
 class TripAddView(ManageTripMixin, CreateView):
-    template_name = 'trips/manage/trip/form.html'
     permission_required = 'trip.add_trip'
 
 

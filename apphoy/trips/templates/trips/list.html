@@ -10,33 +10,60 @@
                 <option selected value="{% url "trip_list" %}">Trips</option>
             </select>
         </div>
+        <ul>
+            <li><a href="#"><button>Change</button></a></li>
+            <li><a id="add-trip-btn" href="#"><button>Add</button></a></li>
+        </ul>
 	</header>
-    <div class="trips-flex">
-        <div class="trips-list">
-            <ul>
-                <li><a href="#"><button>Sort by</button></a></li>
-                <li><a href="{% url "trip_add" %}"><button>Add trip</button></a></li>
-            </ul>
-            <ul>
-                {% for t in trips %}
-                    <li {% if trip == t %}class="selected"{% endif %}>
-                        <a href="">
-                            {{ t.name }}
-                        </a>
-                    </li>
-                {% empty %}
-                    <li class="no-result">
-                        No trips in the database.
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="trip-stages">
-            {% for stage in trip_stages %}
-                <h3><a href="{% url "trip_stage_detail" stage.slug %}">{{ stage.name }}</a></h3>
-            {% empty %}
-                <p>No stages for this trip.</p>
-            {% endfor %}
+    <div class="popup-form-container">
+<!--        <div class="trip-stages">-->
+<!--            {% for stage in trip_stages %}-->
+<!--                <h3><a href="{% url "trip_stage_detail" stage.slug %}">{{ stage.name }}</a></h3>-->
+<!--            {% empty %}-->
+<!--                <p>No stages for this trip.</p>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+        <div class="popup-form-content">
+            <h3>Add new trip:</h3>
+            <form action="." method="post">
+                {{ form.name.label }}:
+                <span {% if form.name.errors %}class="error-input"{% endif %}>{{ form.name }}</span>
+                {{ form.name.errors }}
+                {% csrf_token %}
+                <div class="form-buttons">
+                    <a href="#" class="form-exit" id="cancel">Cancel</a>
+                    <input id="confirm-form-btn" type="submit" value="Add">
+                </div>
+            </form>
+            <i class="form-exit" id="x-btn">x</i>
         </div>
     </div>
+    <div class="trips-list">
+        <ul>
+            {% for t in trips %}
+                <li {% if trip == t %}class="selected"{% endif %}>
+                    <a href="">
+                        {{ t.name }}
+                    </a>
+                </li>
+            {% empty %}
+                <li class="no-result">
+                    No trips in the database.
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+{% block domready %}
+    {% if form.errors %}
+        $('.popup-form-container').css('transform', 'scale(1)');
+    {% else %}
+        $('.popup-form-container').css('transform', 'scale(0)');
+    {% endif %}
+    $('#add-trip-btn').click(function() {
+        $('.popup-form-container').css('transform', 'scale(1)');
+    });
+    $('.form-exit').click(function() {
+        $('.popup-form-container').css('transform', 'scale(0)');
+    });
 {% endblock %}
