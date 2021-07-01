@@ -34,8 +34,19 @@
         $(document).ready(function() {
             {% block domready %}
             {% endblock %}
-            $('#hamburger').click(function(){
-                $(this).toggleClass('open');
+            {% if form.errors %}
+                $('.popup-form-container').css('transform', 'scale(1)');
+            {% elif target %}
+                $('.popup-form-container').css('transform', 'scale(1)');
+                $('#confirm-form-btn').prop("value", "Update");
+            {% else %}
+                $('.popup-form-container').css('transform', 'scale(0)');
+            {% endif %}
+            $('.open-form-btn').click(function() {
+                $('.popup-form-container').css('transform', 'scale(1)');
+            });
+            $('.form-exit').click(function() {
+                $('.popup-form-container').css('transform', 'scale(0)');
             });
         });
     </script>

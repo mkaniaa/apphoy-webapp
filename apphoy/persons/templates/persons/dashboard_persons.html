@@ -7,16 +7,30 @@
 {% block content %}
 	<header class="sub-header">
         <div class="custom-select">
-            <select onChange="window.location.href=this.value">
+            <select class="dashboard-select" onChange="window.location.href=this.value">
                 <option selected value="{% url "person_list" %}">Persons</option>
                 <option value="{% url "trip_list" %}">Trips</option>
             </select>
         </div>
         <ul>
-            <li><a href="#"><button id="group-remove" type="submit" disabled>Remove</button></a></li>
-            <li><a href="{% url "person_add" %}"><button>Add</button></a></li>
+            <li><button id="group-remove" type="submit" disabled>Remove</button></li>
+            <li><button class="open-form-btn" id="add-form-btn">Add</button></li>
         </ul>
 	</header>
+    <div class="popup-form-container">
+        <div class="popup-form-content">
+            <h3>{% if target %}Update{% else %}Add{% endif %} new person:</h3>
+            <form action="." method="post">
+                {{ form }}
+                {% csrf_token %}
+                <div class="form-buttons">
+                    <a href="{% url "person_list" %}" class="form-exit" id="cancel">Cancel</a>
+                    <input id="confirm-form-btn" type="submit" name="action" value="Add">
+                </div>
+            </form>
+            <a href="{% url "person_list" %}" class="form-exit" id="x-btn">x</a>
+        </div>
+    </div>
     <table class="persons">
         <tr class="header">
             <th>
@@ -27,7 +41,7 @@
             {% endfor %}
         </tr>
         {% for person in object_list %}
-            <tr id="{{ person.id }}">
+            <tr id="{{ person.id }}" class="">
                 <td class="check-cell">
                     <input type="checkbox" value="{{ person.id }}"/>
                 </td>
@@ -46,6 +60,15 @@
     </table>
 {% endblock %}
 {% block domready %}
+    $("#id_birth_date").datepicker({
+        showButtonPanel: true,
+        changeMonth: true,
+        changeYear: true,
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        yearRange: "-90:+0"
+    });
+
     var checkboxes = $("input[type='checkbox']"),
         removeButton = $("#group-remove"),
         selectAllCheck = $("#select-all");
@@ -66,7 +89,10 @@
         if(count > 0) {
             if (confirm("Are you sure you want to remove " + count + " " + pluralize(count, 'person') + "?")) {
                 $.post('',
-                    { ids },
+                    {
+                        'action': 'Delete',
+                        ids
+                    },
                     function(response) {
                         for(var i=0; i < count; i++) {
                             var removedRow = $('tr#' + ids[i]);

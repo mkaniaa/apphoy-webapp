@@ -1,6 +1,6 @@
 @import "base.css";
 
-select {
+.dashboard-select {
     font-family:'Roboto', sans-serif;
     font-size: 1.2rem;
     font-weight:400;
@@ -27,7 +27,7 @@ select {
     cursor: pointer;
 }
 
-select:hover {
+.dashboard-select:hover {
     color: #a4a4a4;
     cursor: pointer;
 }

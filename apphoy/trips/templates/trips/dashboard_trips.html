@@ -5,14 +5,14 @@
 {% block content %}
 	<header class="sub-header">
         <div class="custom-select">
-            <select onChange="window.location.href=this.value">
+            <select class="dashboard-select" onChange="window.location.href=this.value">
                 <option value="{% url "person_list" %}">Persons</option>
                 <option selected value="{% url "trip_list" %}">Trips</option>
             </select>
         </div>
         <ul>
-            <li><a href="#"><button>Change</button></a></li>
-            <li><a id="add-trip-btn" href="#"><button>Add</button></a></li>
+            <li><button>Change</button></li>
+            <li><button class="open-form-btn" id="add-form-btn">Add</button></li>
         </ul>
 	</header>
     <div class="popup-form-container">
@@ -55,15 +55,4 @@
     </div>
 {% endblock %}
 {% block domready %}
-    {% if form.errors %}
-        $('.popup-form-container').css('transform', 'scale(1)');
-    {% else %}
-        $('.popup-form-container').css('transform', 'scale(0)');
-    {% endif %}
-    $('#add-trip-btn').click(function() {
-        $('.popup-form-container').css('transform', 'scale(1)');
-    });
-    $('.form-exit').click(function() {
-        $('.popup-form-container').css('transform', 'scale(0)');
-    });
 {% endblock %}

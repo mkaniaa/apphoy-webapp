@@ -12,10 +12,12 @@
     left: 0;
     background: rgba(0,0,0,.3);
     transform: scale(0);
+    overflow: auto;
 }
 
 .popup-form-content {
-    min-height: 10rem;
+    margin: 2vw;
+    min-height: min-content;
     min-width: 20rem;
     max-width: 50vw;
     padding: 10px 20px 30px 20px;
@@ -23,6 +25,8 @@
     border-radius: 5px;
     text-align: center;
     position: relative;
+    max-height: 40vw;
+    overflow-y: auto;
 }
 
 .popup-form-content form {
@@ -41,6 +45,10 @@
     padding: 0;
     list-style-type: none;
     font-size: 14px;
+}
+
+.popup-form-content form label {
+    margin-top: 0.5rem;
 }
 
 .error-input input{
