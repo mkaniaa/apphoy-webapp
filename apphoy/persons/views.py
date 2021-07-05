@@ -9,7 +9,7 @@ from .forms import PersonManageForm
 from .models import Person
 
 
-class PersonManageView(ListView):
+class PersonManageView(LoginRequiredMixin, ListView):
     model = Person
     template_name = 'persons/dashboard_persons.html'
     pk = None
