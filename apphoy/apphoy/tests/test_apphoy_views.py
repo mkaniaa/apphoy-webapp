@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.test import TestCase, Client
 
 from apphoy.views import redirect_view
@@ -13,4 +14,4 @@ class TestViews(TestCase):
                              '/persons/',
                              status_code=302,
                              target_status_code=200,
-                             fetch_redirect_response=True)
+                             fetch_redirect_response=False)

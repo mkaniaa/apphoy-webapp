@@ -35,7 +35,7 @@ class Person(models.Model):
     nin = models.CharField(max_length=15,
                            null=True,
                            blank=True,
-                           verbose_name='National Insurance number')
+                           verbose_name='National Insurance Number')
     city = models.CharField(max_length=20,
                             null=True,
                             blank=True,

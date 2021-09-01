@@ -11,6 +11,7 @@ from persons.forms import PersonManageForm
 from persons.models import Person
 from persons.views import PersonManageView
 
+
 TEST_ID = 1
 TEST_NAME = 'TestName'
 TEST_SURNAME = 'TestSurname'
@@ -27,30 +28,39 @@ class TestViews(TestCase):
                                  name=TEST_NAME,
                                  surname=TEST_SURNAME)
         cls.factory = RequestFactory()
+        cls.credentials = {
+            'username': 'testuser',
+            'password': 'secret'}
+        User.objects.create_user(**cls.credentials)
 
     def test_person_manage_view_headers_context(self):
+        self.client.login(username=self.credentials['username'], password=self.credentials['password'])
         response = self.client.get(reverse('person_list'))
         original_verbose_field_names = [f.verbose_name for f in Person._meta.get_fields()]
         original_verbose_field_names.remove('ID')
         self.assertCountEqual(response.context['headers'], original_verbose_field_names)
 
     def test_person_manage_view_attributes_context(self):
+        self.client.login(username=self.credentials['username'], password=self.credentials['password'])
         response = self.client.get(reverse('person_list'))
         original_field_names = [f.name for f in Person._meta.get_fields()]
         original_field_names.remove('id')
         self.assertCountEqual(response.context['attributes'], original_field_names)
 
     def test_person_manage_view_target_context(self):
+        self.client.login(username=self.credentials['username'], password=self.credentials['password'])
         response = self.client.get(reverse('person_edit', kwargs={'pk': TEST_ID}))
         self.assertEqual(response.context['target'], TEST_ID)
 
     def test_person_manage_view_add_form(self):
+        self.client.login(username=self.credentials['username'], password=self.credentials['password'])
         response = self.client.get(reverse('person_list'))
         mock_form = PersonManageForm
         response_form = response.context['form']
         self.assertEqual(response_form().data, mock_form().data)
 
     def test_person_manage_view_update_form(self):
+        self.client.login(username=self.credentials['username'], password=self.credentials['password'])
         response = self.client.get(reverse('person_edit', kwargs={'pk': TEST_ID}))
         mock_form = PersonManageForm(instance=self.person)
         response_form = response.context['form']
