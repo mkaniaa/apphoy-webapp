@@ -22,6 +22,7 @@ from .views import redirect_view
 urlpatterns = [
     path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('accounts/profile/', redirect_view, name='profile_main'),
     path('admin/', admin.site.urls),
     path('', redirect_view, name='main'),
     path('persons/', include('persons.urls')),

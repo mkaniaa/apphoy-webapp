@@ -104,4 +104,14 @@
             }
         }
     });
+
+     {% if messages %}
+        var message = "";
+        {% for message in messages %}
+            var message = message + "{{ message }}";
+        {% endfor %}
+
+        alert(message);
+        window.history.back();
+    {% endif %}
 {% endblock %}

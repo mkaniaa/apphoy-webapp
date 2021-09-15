@@ -1,4 +1,7 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView
@@ -22,6 +25,11 @@ class PersonManageView(LoginRequiredMixin, ListView):
         context['attributes'] = attributes
         context['target'] = self.pk
 
+        if 'no_permission' in self.request.get_full_path():
+            messages.error(self.request, 'You have no permission for this action!')
+        else:
+            list(messages.get_messages(self.request))
+
         if self.pk:
             person = get_object_or_404(self.model, pk=self.pk)
             context['form'] = PersonManageForm(instance=person)
@@ -35,21 +43,25 @@ class PersonManageView(LoginRequiredMixin, ListView):
         return super(PersonManageView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        if request.POST['action'] == 'Add':
-            return PersonAddView.as_view()(request)
-        elif request.POST['action'] == 'Update':
-            return PersonEditView.as_view()(request, pk=kwargs['pk'])
-        else:
-            return PersonDeleteView.as_view()(request)
+        try:
+            if request.POST['action'] == 'Add':
+                return PersonAddView.as_view()(request)
+            elif request.POST['action'] == 'Update':
+                return PersonEditView.as_view()(request, pk=kwargs['pk'])
+            else:
+                return PersonDeleteView.as_view()(request)
+        except PermissionDenied:
+            return HttpResponseRedirect('no_permission')
 
 
 class ManagePersonMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = Person
     success_url = reverse_lazy('person_list')
+    raise_exception = True
 
 
-class PersonDeleteView(View, ManagePersonMixin):
-    permission_required = 'person.delete_person'
+class PersonDeleteView(ManagePersonMixin, View):
+    permission_required = 'persons.delete_person'
 
     def post(self, request, *args, **kwargs):
         person_ids = request.POST.getlist('ids[]')
@@ -59,16 +71,16 @@ class PersonDeleteView(View, ManagePersonMixin):
         return redirect('person_list')
 
 
-class PersonAddView(CreateView, ManagePersonMixin):
+class PersonAddView(ManagePersonMixin, CreateView):
     model = Person
-    success_url = '/persons/'
-    permission_required = 'person.add_person'
+    success_url = reverse_lazy('person_list')
+    permission_required = 'persons.add_person'
     fields = get_field_names(model, exclude=['id'])
 
 
 class PersonEditView(ManagePersonMixin, UpdateView):
     model = Person
-    permission_required = 'person.change_person'
+    permission_required = 'persons.change_person'
     fields = get_field_names(model, exclude=['id'])
 
     def get_object(self, queryset=None):
