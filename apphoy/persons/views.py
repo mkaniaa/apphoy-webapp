@@ -1,9 +1,7 @@
-from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, ListView
 from django.views.generic.base import View
 
@@ -24,11 +22,6 @@ class PersonManageView(LoginRequiredMixin, ListView):
         context['headers'] = headers
         context['attributes'] = attributes
         context['target'] = self.pk
-
-        if 'no_permission' in self.request.get_full_path():
-            messages.error(self.request, 'You have no permission for this action!')
-        else:
-            list(messages.get_messages(self.request))
 
         if self.pk:
             person = get_object_or_404(self.model, pk=self.pk)
@@ -51,7 +44,11 @@ class PersonManageView(LoginRequiredMixin, ListView):
             else:
                 return PersonDeleteView.as_view()(request)
         except PermissionDenied:
-            return HttpResponseRedirect('no_permission')
+            return redirect(reverse('no_permission'))
+
+
+class PersonManageNoPermissionView(PersonManageView):
+    template_name = 'persons/dashboard_persons_no_permission.html'
 
 
 class ManagePersonMixin(LoginRequiredMixin, PermissionRequiredMixin):
@@ -64,11 +61,12 @@ class PersonDeleteView(ManagePersonMixin, View):
     permission_required = 'persons.delete_person'
 
     def post(self, request, *args, **kwargs):
+        print('request: {}'.format(request.POST))
         person_ids = request.POST.getlist('ids[]')
         for person_id in person_ids:
             person = get_object_or_404(Person, id=person_id)
             person.delete()
-        return redirect('person_list')
+        return redirect(reverse('person_list'))
 
 
 class PersonAddView(ManagePersonMixin, CreateView):

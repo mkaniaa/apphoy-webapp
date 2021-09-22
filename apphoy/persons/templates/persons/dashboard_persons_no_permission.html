@@ -1,0 +1,5 @@
+{% extends "persons/dashboard_persons.html" %}
+{% block domready %}
+        alert("You have no permission for this action!");
+        window.location.replace("{% url "person_list" %}");
+{% endblock %}

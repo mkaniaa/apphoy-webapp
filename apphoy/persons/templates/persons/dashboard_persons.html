@@ -79,9 +79,9 @@
     checkboxes.click(function() {
         removeButton.prop("disabled", !checkboxes.is(":checked"));
     });
+    var ids = [];
     const pluralize = (count, noun, suffix = 's') => `${noun}${count !== 1 ? suffix : ''}`;
     removeButton.click(function() {
-        var ids = [];
         $(':checkbox:checked').each(function(i) {
             ids[i] = $(this).val();
         });
@@ -93,11 +93,17 @@
                         'action': 'Delete',
                         ids
                     },
-                    function(response) {
-                        for(var i=0; i < count; i++) {
-                            var removedRow = $('tr#' + ids[i]);
-                            removedRow.css('background-color', '#ccc');
-                            removedRow.fadeOut('slow');
+                    function(response, status, jqXHR) {
+                        if (jqXHR.getResponseHeader('content-type').indexOf('text/html') >= 0) {
+                            window.location.replace("{% url "no_permission" %}");
+                        } else {
+                            for(var i=0; i < count; i++) {
+                                var removedRow = $('tr#' + ids[i]);
+                                removedRow.css('background-color', '#ccc');
+                                removedRow.fadeOut('slow');
+                                removedCheckbox = $("input[type='checkbox'][value=" + ids[i] + "]");
+                                removedCheckbox.prop('checked', false);
+                            }
                         }
                     }
                 );
