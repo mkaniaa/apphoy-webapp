@@ -1,29 +1,29 @@
 @import "base.css";
 
-.persons {
+.item-list {
   border-collapse: collapse;
   width: 100%;
   font-size:14px;
   empty-cells: show;
 }
 
-.persons td, .persons th {
+.item-list td, .item-list th {
   border: 1px solid #ddd;
   padding: 8px;
 }
 
-.persons tr:nth-child(even){background-color: #f2f2f2;}
+.item-list tr:nth-child(even){background-color: #f2f2f2;}
 
-.persons tr:hover {
+.item-list tr:hover {
     background-color: #ddd;
     cursor:pointer;
 }
 
-.persons .header {
+.item-list .header {
   background:linear-gradient(to bottom right, #6ee2f5, #4c3ec9);
 }
 
-.persons th {
+.item-list th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: center;
@@ -31,7 +31,7 @@
   font-weight:300;
 }
 
-.persons tr td {
+.item-list tr td {
     white-space: nowrap;
 }
 

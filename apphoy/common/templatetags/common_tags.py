@@ -13,3 +13,12 @@ def attribute_value(obj, attr_name):
     except AttributeError:
         return None
 
+
+@register.simple_tag
+def not_in_list(val, string_list):
+    """
+    Checks if the value is in the list given as a string with comma-separated elements.
+    """
+    values = string_list.split(",")
+    return True if val not in values else False
+

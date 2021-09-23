@@ -1,7 +1,6 @@
-from django.contrib.auth.models import User
 from django.test import TestCase, Client
 
-from apphoy.views import redirect_view
+from common.views import redirect_view
 
 
 class TestViews(TestCase):

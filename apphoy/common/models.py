@@ -17,8 +17,11 @@ def get_verbose_field_names(model, exclude=None):
     verbose names were passed in the "exclude" parameter list.
     """
     exclude = exclude if exclude else []
-    return [
-        field.verbose_name
-        for field in model._meta.get_fields()
-        if field.verbose_name not in exclude
-    ]
+    names = []
+    for field in model._meta.get_fields():
+        try:
+            if field.verbose_name not in exclude:
+                names.append(field.verbose_name)
+        except AttributeError:
+            continue
+    return names

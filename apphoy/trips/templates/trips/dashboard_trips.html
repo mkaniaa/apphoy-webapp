@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load common_tags %}
 
 {% block title %}Trips{% endblock %}
 
@@ -38,21 +39,37 @@
             <i class="form-exit" id="x-btn">x</i>
         </div>
     </div>
-    <div class="trips-list">
-        <ul>
-            {% for t in trips %}
-                <li {% if trip == t %}class="selected"{% endif %}>
-                    <a href="">
-                        {{ t.name }}
-                    </a>
-                </li>
-            {% empty %}
-                <li class="no-result">
-                    No trips in the database.
-                </li>
+
+    <table class="item-list">
+        <tr class="header">
+            <th>
+                <input type="checkbox" id="select-all"/>
+            </th>
+            {% for h in headers %}
+                <th>{{ h }}</th>
             {% endfor %}
-        </ul>
-    </div>
+        </tr>
+        {% for trip in object_list %}
+            <tr id="{{ trip.id }}" class="">
+                <td class="check-cell">
+                    <input type="checkbox" value="{{ trip.id }}"/>
+                </td>
+                {% for attr in attributes %}
+                    {% not_in_list attr "stages,slug" as not_in_list %}
+                    {% if not_in_list %}
+                        <td onclick="window.location='{% url "trip_edit" trip.id %}';">
+                            {% attribute_value trip attr as attr_value %}
+                            {% if attr_value %}{{ attr_value}}{% else %}&nbsp;{% endif %}
+                        </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="{{ headers|length|add:"1" }}" class="no-result"><p>No trips in the database.</p></td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
 {% block domready %}
 {% endblock %}

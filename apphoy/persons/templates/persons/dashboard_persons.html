@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% load person_tags %}
+{% load common_tags %}
 
 {% block title %}Persons{% endblock %}
 
@@ -31,7 +31,8 @@
             <a href="{% url "person_list" %}" class="form-exit" id="x-btn">x</a>
         </div>
     </div>
-    <table class="persons">
+
+    <table class="item-list">
         <tr class="header">
             <th>
                 <input type="checkbox" id="select-all"/>
@@ -59,6 +60,7 @@
         {% endfor %}
     </table>
 {% endblock %}
+
 {% block domready %}
     $("#id_birth_date").datepicker({
         showButtonPanel: true,

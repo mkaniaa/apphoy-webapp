@@ -5,7 +5,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, ListView
 from django.views.generic.base import View
 
-from apphoy.models import get_verbose_field_names, get_field_names
+from common.models import get_verbose_field_names, get_field_names
 from .forms import PersonManageForm
 from .models import Person
 

@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
 
-from .views import redirect_view
+from common.views import redirect_view
 
 urlpatterns = [
     path('accounts/login/', auth_views.LoginView.as_view(), name='login'),

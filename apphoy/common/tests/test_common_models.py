@@ -1,6 +1,6 @@
 import unittest
 
-from apphoy.models import get_field_names, get_verbose_field_names
+from common.models import get_field_names, get_verbose_field_names
 from persons.models import Person
 
 

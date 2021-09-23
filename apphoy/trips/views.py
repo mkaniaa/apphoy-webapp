@@ -2,37 +2,23 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView
 
-from apphoy.models import get_field_names
+from common.models import get_field_names, get_verbose_field_names
 from .forms import TripCreateForm
 from .models import Trip, TripStage
 
 
-class TripCreateView(CreateView):
+class TripManageView(LoginRequiredMixin, ListView):
     model = Trip
     template_name = 'trips/dashboard_trips.html'
-    form_class = TripCreateForm
-    success_url = '/trips/'
 
-    def get_context_data(self, trip_slug=None, **kwargs):
-        if trip_slug is None:
-            first_trip = Trip.objects.first()
-            if first_trip:
-                trip_slug = first_trip.slug
-                trip = get_object_or_404(Trip, slug=trip_slug)
-            else:
-                trip = None
-        else:
-            trip = get_object_or_404(Trip, slug=trip_slug)
-
-        trips = Trip.objects.all()
-        trip_stages = TripStage.objects.filter(trip=trip)
-
-        context = super(TripCreateView, self).get_context_data(**kwargs)
-        context['trips'] = trips
-        context['trip'] = trip
-        context['trip_stages'] = trip_stages
+    def get_context_data(self, **kwargs):
+        headers = get_verbose_field_names(self.model, exclude=['ID', 'slug'])
+        attributes = get_field_names(self.model, exclude=['id', 'slug'])
+        context = super(TripManageView, self).get_context_data(**kwargs)
+        context['headers'] = headers
+        context['attributes'] = attributes
 
         return context
 

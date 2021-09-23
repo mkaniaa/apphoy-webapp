@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apphoy.models import get_field_names
+from common.models import get_field_names
 from .models import Person
 
 
