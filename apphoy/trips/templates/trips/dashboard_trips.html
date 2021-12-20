@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load static %}
 {% load common_tags %}
 
-{% block title %}Trips{% endblock %}
+{% block title %}Persons{% endblock %}
 
 {% block content %}
 	<header class="sub-header">
@@ -12,31 +13,22 @@
             </select>
         </div>
         <ul>
-            <li><button>Change</button></li>
+            <li><button id="group-remove" type="submit" disabled>Remove</button></li>
             <li><button class="open-form-btn" id="add-form-btn">Add</button></li>
         </ul>
 	</header>
     <div class="popup-form-container">
-<!--        <div class="trip-stages">-->
-<!--            {% for stage in trip_stages %}-->
-<!--                <h3><a href="{% url "trip_stage_detail" stage.slug %}">{{ stage.name }}</a></h3>-->
-<!--            {% empty %}-->
-<!--                <p>No stages for this trip.</p>-->
-<!--            {% endfor %}-->
-<!--        </div>-->
         <div class="popup-form-content">
-            <h3>Add new trip:</h3>
+            <h3>{% if target %}Update{% else %}Add{% endif %} new trip:</h3>
             <form action="." method="post">
-                {{ form.name.label }}:
-                <span {% if form.name.errors %}class="error-input"{% endif %}>{{ form.name }}</span>
-                {{ form.name.errors }}
+                {{ form }}
                 {% csrf_token %}
                 <div class="form-buttons">
-                    <a href="#" class="form-exit" id="cancel">Cancel</a>
-                    <input id="confirm-form-btn" type="submit" value="Add">
+                    <a href="{% url "trip_list" %}" class="form-exit" id="cancel">Cancel</a>
+                    <input id="confirm-form-btn" type="submit" name="action" value="Add">
                 </div>
             </form>
-            <i class="form-exit" id="x-btn">x</i>
+            <a href="{% url "trip_list" %}" class="form-exit" id="x-btn">x</a>
         </div>
     </div>
 
@@ -55,13 +47,10 @@
                     <input type="checkbox" value="{{ trip.id }}"/>
                 </td>
                 {% for attr in attributes %}
-                    {% not_in_list attr "stages,slug" as not_in_list %}
-                    {% if not_in_list %}
-                        <td onclick="window.location='{% url "trip_edit" trip.id %}';">
-                            {% attribute_value trip attr as attr_value %}
-                            {% if attr_value %}{{ attr_value}}{% else %}&nbsp;{% endif %}
-                        </td>
-                    {% endif %}
+                    <td onclick="window.location='{% url "trip_edit" trip.id %}';">
+                        {% attribute_value trip attr as attr_value %}
+                        {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
+                    </td>
                 {% endfor %}
             </tr>
         {% empty %}
@@ -71,5 +60,57 @@
         {% endfor %}
     </table>
 {% endblock %}
+
 {% block domready %}
+    var checkboxes = $("input[type='checkbox']"),
+        removeButton = $("#group-remove"),
+        selectAllCheck = $("#select-all");
+
+    selectAllCheck.click(function() {
+        checkboxes.not(this).prop("checked", this.checked);
+    });
+    checkboxes.click(function() {
+        removeButton.prop("disabled", !checkboxes.is(":checked"));
+    });
+    var ids = [];
+    const pluralize = (count, noun, suffix = 's') => `${noun}${count !== 1 ? suffix : ''}`;
+    removeButton.click(function() {
+        $(':checkbox:checked').each(function(i) {
+            ids[i] = $(this).val();
+        });
+        var count = ids.length;
+        if(count > 0) {
+            if (confirm("Are you sure you want to remove " + count + " " + pluralize(count, 'trip') + "?")) {
+                $.post('',
+                    {
+                        'action': 'Delete',
+                        ids
+                    },
+                    function(response, status, jqXHR) {
+                        if (jqXHR.getResponseHeader('content-type').indexOf('text/html') >= 0) {
+                            window.location.replace("{% url "trip_no_permission" %}");
+                        } else {
+                            for(var i=0; i < count; i++) {
+                                var removedRow = $('tr#' + ids[i]);
+                                removedRow.css('background-color', '#ccc');
+                                removedRow.fadeOut('slow');
+                                removedCheckbox = $("input[type='checkbox'][value=" + ids[i] + "]");
+                                removedCheckbox.prop('checked', false);
+                            }
+                        }
+                    }
+                );
+            }
+        }
+    });
+
+     {% if messages %}
+        var message = "";
+        {% for message in messages %}
+            var message = message + "{{ message }}";
+        {% endfor %}
+
+        alert(message);
+        window.history.back();
+    {% endif %}
 {% endblock %}

@@ -5,6 +5,10 @@ from .models import Person
 
 
 class PersonManageForm(forms.ModelForm):
+    birth_date = forms.DateField(
+        widget=forms.TextInput(attrs={'class': "date-picker"}),
+        required=False
+    )
 
     class Meta:
         model = Person

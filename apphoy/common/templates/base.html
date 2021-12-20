@@ -43,11 +43,21 @@
             {% else %}
                 $('.popup-form-container').css('transform', 'scale(0)');
             {% endif %}
+
             $('.open-form-btn').click(function() {
                 $('.popup-form-container').css('transform', 'scale(1)');
             });
             $('.form-exit').click(function() {
                 $('.popup-form-container').css('transform', 'scale(0)');
+            });
+
+            $(".date-picker").datepicker({
+                showButtonPanel: true,
+                changeMonth: true,
+                changeYear: true,
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                yearRange: "-90:+0"
             });
         });
     </script>

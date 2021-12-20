@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Trip(models.Model):
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200, unique=True, verbose_name="Name")
     slug = models.SlugField(max_length=200, unique=True)
     start_date = models.DateField(null=True,
                                   blank=True,

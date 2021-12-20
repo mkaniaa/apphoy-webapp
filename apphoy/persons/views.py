@@ -61,7 +61,6 @@ class PersonDeleteView(ManagePersonMixin, View):
     permission_required = 'persons.delete_person'
 
     def post(self, request, *args, **kwargs):
-        print('request: {}'.format(request.POST))
         person_ids = request.POST.getlist('ids[]')
         for person_id in person_ids:
             person = get_object_or_404(Person, id=person_id)
@@ -73,7 +72,7 @@ class PersonAddView(ManagePersonMixin, CreateView):
     model = Person
     success_url = reverse_lazy('person_list')
     permission_required = 'persons.add_person'
-    fields = get_field_names(model, exclude=['id'])
+    form_class = PersonManageForm
 
 
 class PersonEditView(ManagePersonMixin, UpdateView):

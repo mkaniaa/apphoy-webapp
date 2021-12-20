@@ -1,0 +1,5 @@
+{% extends "trips/dashboard_trips.html" %}
+{% block domready %}
+        alert("You have no permission for this action!");
+        window.location.replace("{% url "trip_list" %}");
+{% endblock %}

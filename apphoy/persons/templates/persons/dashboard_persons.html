@@ -49,7 +49,7 @@
                 {% for attr in attributes %}
                     <td onclick="window.location='{% url "person_edit" person.id %}';">
                         {% attribute_value person attr as attr_value %}
-                        {% if attr_value %}{{ attr_value}}{% else %}&nbsp;{% endif %}
+                        {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
                     </td>
                 {% endfor %}
             </tr>
@@ -97,7 +97,7 @@
                     },
                     function(response, status, jqXHR) {
                         if (jqXHR.getResponseHeader('content-type').indexOf('text/html') >= 0) {
-                            window.location.replace("{% url "no_permission" %}");
+                            window.location.replace("{% url "person_no_permission" %}");
                         } else {
                             for(var i=0; i < count; i++) {
                                 var removedRow = $('tr#' + ids[i]);
