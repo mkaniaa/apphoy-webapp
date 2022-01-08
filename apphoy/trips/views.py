@@ -44,7 +44,7 @@ class TripManageView(LoginRequiredMixin, ListView):
             else:
                 return TripDeleteView.as_view()(request)
         except PermissionDenied:
-            return redirect(reverse('no_permission'))
+            return redirect(reverse('trip_no_permission'))
 
 
 class TripManageNoPermissionView(TripManageView):

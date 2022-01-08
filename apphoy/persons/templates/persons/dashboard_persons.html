@@ -95,8 +95,8 @@
                         'action': 'Delete',
                         ids
                     },
-                    function(response, status, jqXHR) {
-                        if (jqXHR.getResponseHeader('content-type').indexOf('text/html') >= 0) {
+                    function(response, status) {
+                        if ($(response).find('.no-permission').length) {
                             window.location.replace("{% url "person_no_permission" %}");
                         } else {
                             for(var i=0; i < count; i++) {

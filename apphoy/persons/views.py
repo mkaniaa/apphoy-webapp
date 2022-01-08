@@ -44,7 +44,7 @@ class PersonManageView(LoginRequiredMixin, ListView):
             else:
                 return PersonDeleteView.as_view()(request)
         except PermissionDenied:
-            return redirect(reverse('no_permission'))
+            return redirect(reverse('person_no_permission'))
 
 
 class PersonManageNoPermissionView(PersonManageView):
