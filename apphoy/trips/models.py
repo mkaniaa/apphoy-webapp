@@ -28,7 +28,9 @@ class Trip(models.Model):
 
 class TripStage(models.Model):
     trip = models.ForeignKey(Trip, related_name='stages', on_delete=models.CASCADE)
-    number = models.PositiveIntegerField()
+    number = models.PositiveIntegerField(null=False,
+                                         blank=False,
+                                         verbose_name='Number')
     start_date = models.DateField(null=True,
                                   blank=True,
                                   verbose_name='Start date')

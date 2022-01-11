@@ -1,11 +1,26 @@
-version: "3.8"
+version: "3.9"
+
 services:
-  app:
-    build: .
+  db:
+    image: postgres
     volumes:
-      - .:/django
-    ports:
-      - 8000:8000
-    image: apphoy:django
-    container_name: apphoy_container
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U postgres"]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+  web:
+    build: .
     command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy

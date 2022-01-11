@@ -2,15 +2,12 @@
 {% load static %}
 {% load common_tags %}
 
-{% block title %}Trips{% endblock %}
+{% block title %}Trip stages{% endblock %}
 
 {% block content %}
 	<header class="sub-header">
         <div class="custom-select">
-            <select class="dashboard-select" onChange="window.location.href=this.value">
-                <option value="{% url "person_list" %}">Persons</option>
-                <option selected value="{% url "trip_list" %}">Trips</option>
-            </select>
+            <a href="{% url "trip_list" %}" id="back-to-trips-btn"><- Back to Trips</a>
         </div>
         <ul>
             <li><button id="group-remove" type="submit" disabled>Remove</button></li>
@@ -19,7 +16,7 @@
 	</header>
     <div class="popup-form-container">
         <div class="popup-form-content">
-            <h3>{% if target %}Update{% else %}Add{% endif %} trip:</h3>
+            <h3>{% if target %}Update{% else %}Add{% endif %} trip stage:</h3>
             <form action="." method="post">
                 {{ form }}
                 {% csrf_token %}
@@ -41,21 +38,23 @@
                 <th>{{ h }}</th>
             {% endfor %}
         </tr>
-        {% for trip in object_list %}
-            <tr id="{{ trip.id }}" class="">
+        {% for trip_stage in object_list %}
+            <tr id="{{ trip_stage.id }}" class="">
                 <td class="check-cell">
-                    <input type="checkbox" value="{{ trip.id }}"/>
+                    <input type="checkbox" value="{{ trip_stage.id }}"/>
                 </td>
                 {% for attr in attributes %}
-                    <td onclick="window.location='{% url "trip_stages" trip.id %}';">
-                        {% attribute_value trip attr as attr_value %}
+                    <td onclick="window.location='{% url "trip_stage_edit" trip_stage.id %}';">
+                        {% attribute_value trip_stage attr as attr_value %}
                         {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
                     </td>
                 {% endfor %}
             </tr>
         {% empty %}
             <tr>
-                <td colspan="{{ headers|length|add:"1" }}" class="no-result"><p>No trips in the database.</p></td>
+                <td colspan="{{ headers|length|add:"1" }}" class="no-result">
+                    <p>No trip stages for this trip in the database.</p>
+                </td>
             </tr>
         {% endfor %}
     </table>

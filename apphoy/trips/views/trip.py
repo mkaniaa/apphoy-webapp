@@ -6,8 +6,8 @@ from django.views.generic import CreateView, UpdateView, ListView
 from django.views.generic.base import View
 
 from common.models import get_verbose_field_names, get_field_names
-from .forms import TripManageForm
-from .models import Trip
+from trips.forms.trip import TripManageForm
+from trips.models import Trip
 
 
 class TripManageView(LoginRequiredMixin, ListView):
@@ -22,12 +22,6 @@ class TripManageView(LoginRequiredMixin, ListView):
         context['headers'] = headers
         context['attributes'] = attributes
         context['target'] = self.pk
-
-        if self.pk:
-            trip = get_object_or_404(self.model, pk=self.pk)
-            context['form'] = TripManageForm(instance=trip)
-        else:
-            context['form'] = TripManageForm
 
         return context
 

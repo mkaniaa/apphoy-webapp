@@ -2,7 +2,7 @@ from django import forms
 from django.utils.text import slugify
 
 from common.models import get_field_names
-from .models import Trip
+from trips.models import Trip
 
 
 class TripManageForm(forms.ModelForm):

@@ -19,7 +19,7 @@
 	</header>
     <div class="popup-form-container">
         <div class="popup-form-content">
-            <h3>{% if target %}Update{% else %}Add{% endif %} new person:</h3>
+            <h3>{% if target %}Update{% else %}Add{% endif %} person:</h3>
             <form action="." method="post">
                 {{ form }}
                 {% csrf_token %}
