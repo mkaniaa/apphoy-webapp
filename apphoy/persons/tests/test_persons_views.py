@@ -15,24 +15,18 @@ from persons.views import PersonManageView
 @pytest.mark.django_db
 class TestViews(TestCase):
 
+    serialized_rollback = True
+
     @classmethod
     def setUpClass(cls):
         super(TestViews, cls).setUpClass()
-        test_id = cls.get_max_person_id() + 1
-        cls.person_data = {"id": test_id,
-                           "name": 'TestName',
-                           "surname": 'TestSurname'}
-        cls.person = mixer.blend('persons.Person', **cls.person_data)
+        cls.person_data = {"name": 'TestName', "surname": 'TestSurname'}
+        cls.person = Person.objects.create(**cls.person_data)
         cls.factory = RequestFactory()
         cls.credentials = {
             'username': 'testuser',
             'password': 'secret'}
         cls.user = User.objects.create_user(**cls.credentials)
-
-    @staticmethod
-    def get_max_person_id():
-        persons = Person.objects.all()
-        return persons.aggregate(Max('id'))['id__max'] if persons else 0
 
     def setUp(self):
         self.client.login(**self.credentials)
@@ -53,9 +47,9 @@ class TestViews(TestCase):
         self.assertCountEqual(response.context['attributes'], original_field_names)
 
     def test_person_manage_view_target_context(self):
-        response = self.client.get(reverse('person_edit', kwargs={'pk': self.person_data["id"]}))
+        response = self.client.get(reverse('person_edit', kwargs={'pk': self.person.id}))
 
-        self.assertEqual(response.context['target'], self.person_data["id"])
+        self.assertEqual(response.context['target'], self.person.id)
 
     def test_person_manage_view_add_form(self):
         response = self.client.get(reverse('person_list'))
@@ -65,7 +59,7 @@ class TestViews(TestCase):
         self.assertEqual(response_form().data, mock_form().data)
 
     def test_person_manage_view_update_form(self):
-        response = self.client.get(reverse('person_edit', kwargs={'pk': self.person_data["id"]}))
+        response = self.client.get(reverse('person_edit', kwargs={'pk': self.person.id}))
         mock_form = PersonManageForm(instance=self.person)
         response_form = response.context['form']
 
@@ -75,7 +69,7 @@ class TestViews(TestCase):
         response = self.client.post(reverse('person_list'), {'action': 'Add',
                                                              'name': self.person.name,
                                                              'surname': self.person.surname}, follow=True)
-        self.assertRedirects(response, reverse('person_list') + 'no-permission/', fetch_redirect_response=False)
+        self.assertRedirects(response, reverse('person_list') + 'person-no-permission/', fetch_redirect_response=False)
 
     def test_person_add_view_authorised(self):
         request = self.factory.post(reverse('person_list'), {'action': 'Add',
@@ -96,7 +90,7 @@ class TestViews(TestCase):
         data['action'] = 'Update'
         data['email'] = 'test@test.com'
         response = self.client.post(reverse('person_edit', kwargs={'pk': person.id}), data, follow=True)
-        self.assertRedirects(response, reverse('person_list') + 'no-permission/', fetch_redirect_response=False)
+        self.assertRedirects(response, reverse('person_list') + 'person-no-permission/', fetch_redirect_response=False)
 
         person.refresh_from_db()
         self.assertEqual(person.email, None)
@@ -121,7 +115,7 @@ class TestViews(TestCase):
     def test_person_delete_view_unauthorised(self):
         person = Person.objects.get(**self.person_data)
         response = self.client.post(reverse('person_list'), {'action': 'Delete', 'ids[]': [person.id]}, follow=True)
-        self.assertRedirects(response, reverse('person_list') + 'no-permission/', fetch_redirect_response=False)
+        self.assertRedirects(response, reverse('person_list') + 'person-no-permission/', fetch_redirect_response=False)
 
         self.assertTrue(Person.objects.filter(pk=person.id).exists())
 
