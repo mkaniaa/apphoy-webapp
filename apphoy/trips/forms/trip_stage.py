@@ -14,8 +14,13 @@ class TripStageManageForm(forms.ModelForm):
         model = TripStage
         fields = get_field_names(model, exclude=["id", "trip"])
 
+    def __init__(self, trip_pk=None, *args, **kwargs):
+        super(TripStageManageForm, self).__init__(*args, **kwargs)
+        print(trip_pk)
+
     def clean(self):
         cleaned_data = super(TripStageManageForm, self).clean()
         cleaned_data['slug'] = slugify(cleaned_data['name'])
         # cleaned_data['trip'] = self.instance.
+        print(cleaned_data)
         return cleaned_data

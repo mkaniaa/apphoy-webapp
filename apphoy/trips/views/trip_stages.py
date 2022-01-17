@@ -74,6 +74,11 @@ class TripAddView(ManageTripStagesMixin, CreateView):
     permission_required = 'trips.add_trip'
     form_class = TripStageManageForm
 
+    def get_form_kwargs(self):
+        kwargs = super(TripAddView, self).get_form_kwargs()
+        kwargs.update(self.kwargs)
+        return kwargs
+
 
 class TripEditView(ManageTripStagesMixin, UpdateView):
     model = TripStage

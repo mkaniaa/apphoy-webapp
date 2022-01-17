@@ -1,11 +1,8 @@
 import pytest
 from django.contrib.auth.models import User, Permission
-from django.db.models import Max
 from django.shortcuts import get_object_or_404
-from django.test import RequestFactory
-from django.test import TestCase
+from django.test import RequestFactory, TestCase
 from django.urls import reverse
-from mixer.backend.django import mixer
 
 from persons.forms import PersonManageForm
 from persons.models import Person
@@ -13,13 +10,13 @@ from persons.views import PersonManageView
 
 
 @pytest.mark.django_db
-class TestViews(TestCase):
+class TestPersonsViews(TestCase):
 
     serialized_rollback = True
 
     @classmethod
     def setUpClass(cls):
-        super(TestViews, cls).setUpClass()
+        super(TestPersonsViews, cls).setUpClass()
         cls.person_data = {"name": 'TestName', "surname": 'TestSurname'}
         cls.person = Person.objects.create(**cls.person_data)
         cls.factory = RequestFactory()
