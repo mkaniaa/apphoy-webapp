@@ -21,11 +21,11 @@
                 {{ form }}
                 {% csrf_token %}
                 <div class="form-buttons">
-                    <a href="{% url "trip_list" %}" class="form-exit" id="cancel">Cancel</a>
+                    <a href="{% url "trip_stages" view.kwargs.trip_pk %}" class="form-exit" id="cancel">Cancel</a>
                     <input id="confirm-form-btn" type="submit" name="action" value="Add">
                 </div>
             </form>
-            <a href="{% url "trip_list" %}" class="form-exit" id="x-btn">x</a>
+            <a href="{% url "trip_stages" view.kwargs.trip_pk %}" class="form-exit" id="x-btn">x</a>
         </div>
     </div>
 
@@ -44,7 +44,7 @@
                     <input type="checkbox" value="{{ trip_stage.id }}"/>
                 </td>
                 {% for attr in attributes %}
-                    <td onclick="window.location='{% url "trip_stage_edit" trip_stage.id %}';">
+                    <td onclick="window.location='{% url "trip_stage_edit" view.kwargs.trip_pk trip_stage.id %}';">
                         {% attribute_value trip_stage attr as attr_value %}
                         {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
                     </td>
