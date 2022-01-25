@@ -1,0 +1,9 @@
+.sub-content {
+    display: flex;
+}
+
+.navbar {
+    width: 15vw;
+    height: 100vh;
+    background-color: #6095eb;
+}
