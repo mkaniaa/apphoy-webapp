@@ -31,34 +31,35 @@
             <a href="{% url "trip_list" %}" class="form-exit" id="x-btn">x</a>
         </div>
     </div>
-
-    <table class="item-list">
-        <tr class="header">
-            <th>
-                <input type="checkbox" id="select-all"/>
-            </th>
-            {% for h in headers %}
-                <th>{{ h }}</th>
-            {% endfor %}
-        </tr>
-        {% for trip in object_list %}
-            <tr id="{{ trip.id }}" class="">
-                <td class="check-cell">
-                    <input type="checkbox" value="{{ trip.id }}"/>
-                </td>
-                {% for attr in attributes %}
-                    <td onclick="window.location='{% url "trip_stages" trip.id %}';">
-                        {% attribute_value trip attr as attr_value %}
-                        {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
-                    </td>
+    <div class="sub-content">
+        <table class="item-list">
+            <tr class="header">
+                <th>
+                    <input type="checkbox" id="select-all"/>
+                </th>
+                {% for h in headers %}
+                    <th>{{ h }}</th>
                 {% endfor %}
             </tr>
-        {% empty %}
-            <tr>
-                <td colspan="{{ headers|length|add:"1" }}" class="no-result"><p>No trips in the database.</p></td>
-            </tr>
-        {% endfor %}
-    </table>
+            {% for trip in object_list %}
+                <tr id="{{ trip.id }}" class="">
+                    <td class="check-cell">
+                        <input type="checkbox" value="{{ trip.id }}"/>
+                    </td>
+                    {% for attr in attributes %}
+                        <td onclick="window.location='{% url "trip_stages" trip.id %}';">
+                            {% attribute_value trip attr as attr_value %}
+                            {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="{{ headers|length|add:"1" }}" class="no-result"><p>No trips in the database.</p></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}
 
 {% block domready %}

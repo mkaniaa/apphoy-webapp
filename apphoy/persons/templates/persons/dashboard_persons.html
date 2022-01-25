@@ -31,34 +31,35 @@
             <a href="{% url "person_list" %}" class="form-exit" id="x-btn">x</a>
         </div>
     </div>
-
-    <table class="item-list">
-        <tr class="header">
-            <th>
-                <input type="checkbox" id="select-all"/>
-            </th>
-            {% for h in headers %}
-                <th>{{ h }}</th>
-            {% endfor %}
-        </tr>
-        {% for person in object_list %}
-            <tr id="{{ person.id }}" class="">
-                <td class="check-cell">
-                    <input type="checkbox" value="{{ person.id }}"/>
-                </td>
-                {% for attr in attributes %}
-                    <td onclick="window.location='{% url "person_edit" person.id %}';">
-                        {% attribute_value person attr as attr_value %}
-                        {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
-                    </td>
+    <div class="sub-content">
+        <table class="item-list">
+            <tr class="header">
+                <th>
+                    <input type="checkbox" id="select-all"/>
+                </th>
+                {% for h in headers %}
+                    <th>{{ h }}</th>
                 {% endfor %}
             </tr>
-        {% empty %}
-            <tr>
-                <td colspan="{{ headers|length|add:"1" }}" class="no-result"><p>No persons in the database.</p></td>
-            </tr>
-        {% endfor %}
-    </table>
+            {% for person in object_list %}
+                <tr id="{{ person.id }}" class="">
+                    <td class="check-cell">
+                        <input type="checkbox" value="{{ person.id }}"/>
+                    </td>
+                    {% for attr in attributes %}
+                        <td onclick="window.location='{% url "person_edit" person.id %}';">
+                            {% attribute_value person attr as attr_value %}
+                            {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="{{ headers|length|add:"1" }}" class="no-result"><p>No persons in the database.</p></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}
 
 {% block domready %}
