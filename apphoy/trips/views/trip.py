@@ -22,6 +22,7 @@ class TripManageView(LoginRequiredMixin, ListView):
         context['headers'] = headers
         context['attributes'] = attributes
         context['target'] = self.pk
+        context['form'] = TripManageForm
 
         return context
 

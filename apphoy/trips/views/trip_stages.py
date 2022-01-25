@@ -13,7 +13,7 @@ from trips.models import TripStage
 class TripStagesManageView(LoginRequiredMixin, ListView):
     model = TripStage
     template_name = 'trips/trip_stages.html'
-    pk = None
+    trip_stage_pk = None
 
     def get_context_data(self, **kwargs):
         headers = get_verbose_field_names(self.model, exclude=['ID', 'slug'])
@@ -21,26 +21,28 @@ class TripStagesManageView(LoginRequiredMixin, ListView):
         context = super(TripStagesManageView, self).get_context_data(**kwargs)
         context['headers'] = headers
         context['attributes'] = attributes
-        context['target'] = self.pk
+        context['target'] = self.trip_stage_pk
 
-        if self.pk:
-            trip = get_object_or_404(self.model, pk=self.pk)
-            context['form'] = TripStageManageForm(instance=trip)
+        if self.trip_stage_pk:
+            trip_stage = get_object_or_404(self.model, pk=self.trip_stage_pk)
+            context['form'] = TripStageManageForm(instance=trip_stage)
         else:
             context['form'] = TripStageManageForm
 
         return context
 
     def get(self, request, *args, **kwargs):
-        self.pk = kwargs.get('pk')
+        self.trip_stage_pk = kwargs.get('trip_stage_pk')
         return super(TripStagesManageView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         try:
             if request.POST['action'] == 'Add':
-                return TripAddView.as_view()(request)
+                return TripStagesAddView.as_view()(request, trip_pk=self.kwargs.get("trip_pk"))
             elif request.POST['action'] == 'Update':
-                return TripEditView.as_view()(request, pk=kwargs['pk'])
+                return TripStagesEditView.as_view()(request,
+                                                    trip_stage_pk=kwargs['trip_stage_pk'],
+                                                    trip_pk=self.kwargs.get("trip_pk"))
             else:
                 return TripStagesDeleteView.as_view()(request)
         except PermissionDenied:
@@ -53,12 +55,15 @@ class TripStagesManageNoPermissionView(TripStagesManageView):
 
 class ManageTripStagesMixin(LoginRequiredMixin, PermissionRequiredMixin):
     model = TripStage
-    success_url = reverse_lazy('trip_stages')
     raise_exception = True
+    template_name = 'trips/trip_stages.html'
+
+    def get_success_url(self):
+        return reverse_lazy('trip_stages', kwargs={"trip_pk": self.kwargs.get("trip_pk")})
 
 
 class TripStagesDeleteView(ManageTripStagesMixin, View):
-    permission_required = 'trips.delete_trip'
+    permission_required = 'trips.delete_tripstage'
 
     def post(self, request, *args, **kwargs):
         trip_ids = request.POST.getlist('ids[]')
@@ -68,17 +73,21 @@ class TripStagesDeleteView(ManageTripStagesMixin, View):
         return redirect(reverse('trip_list'))
 
 
-class TripAddView(ManageTripStagesMixin, CreateView):
+class TripStagesAddView(ManageTripStagesMixin, CreateView):
     model = TripStage
-    success_url = reverse_lazy('trip_list')
-    permission_required = 'trips.add_trip'
+    permission_required = 'trips.add_tripstage'
     form_class = TripStageManageForm
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["trip_pk"] = self.kwargs.get("trip_pk")
+        return initial
 
-class TripEditView(ManageTripStagesMixin, UpdateView):
+
+class TripStagesEditView(ManageTripStagesMixin, UpdateView):
     model = TripStage
-    permission_required = 'trips.change_trip'
+    permission_required = 'trips.change_tripstage'
     fields = get_field_names(model, exclude=['id', 'stages'])
 
     def get_object(self, queryset=None):
-        return TripStage.objects.get(pk=self.kwargs.get("pk"))
+        return TripStage.objects.get(pk=self.kwargs.get("trip_stage_pk"))

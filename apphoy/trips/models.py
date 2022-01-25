@@ -27,10 +27,11 @@ class Trip(models.Model):
 
 
 class TripStage(models.Model):
+    name = models.CharField(max_length=200, unique=True, verbose_name="Name")
     trip = models.ForeignKey(Trip, related_name='stages', on_delete=models.CASCADE)
-    number = models.PositiveIntegerField(null=False,
-                                         blank=False,
-                                         verbose_name='Number')
+    order = models.PositiveIntegerField(null=False,
+                                        blank=False,
+                                        verbose_name='Order')
     start_date = models.DateField(null=True,
                                   blank=True,
                                   verbose_name='Start date')
