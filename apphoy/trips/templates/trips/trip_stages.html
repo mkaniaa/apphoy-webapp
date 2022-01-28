@@ -6,12 +6,10 @@
 
 {% block content %}
 	<header class="sub-header">
-        <div class="custom-select">
-            <a href="{% url "trip_list" %}" id="back-to-trips-btn"><- Back to Trips</a>
-        </div>
+        <a href="{% url "trip_list" %}" id="back-to-trips-btn"><i class="fa-solid fa-chevron-left"></i>&nbsp; Back to Trips</a>
         <ul>
-            <li><button id="group-remove" type="submit" disabled>Remove</button></li>
-            <li><button class="open-form-btn" id="add-form-btn">Add</button></li>
+            <li><button id="group-remove" type="submit" disabled><i class="fa-solid fa-minus"></i>&nbsp; Remove</button></li>
+            <li><button id="add-form-btn"><i class="fa-solid fa-plus"></i>&nbsp; Add</button></li>
         </ul>
 	</header>
     <div class="popup-form-container">
@@ -29,7 +27,13 @@
         </div>
     </div>
     <div class="sub-content">
-        <nav class="navbar"></nav>
+        <nav class="navbar">
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-calendar-week"></i>&nbsp; Details</a></li>
+                <li><a href="#"><i class="fa-solid fa-project-diagram"></i>&nbsp; Stages</a></li>
+                <li><a href="#"><i class="fa-solid fa-user-friends"></i>&nbsp; Participants</a></li>
+            </ul>
+        </nav>
         <table class="item-list">
             <tr class="header">
                 <th>

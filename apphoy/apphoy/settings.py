@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'fontawesomefree',
     'persons.apps.PersonsConfig',
     'trips.apps.TripsConfig',
     'common.apps.CommonConfig',

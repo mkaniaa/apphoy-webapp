@@ -19,7 +19,6 @@ class TripStageManageForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         if kwargs.get("initial"):
             self.trip_pk = kwargs["initial"].pop("trip_pk")
-        print(kwargs)
         super(TripStageManageForm, self).__init__(*args, **kwargs)
 
     def clean(self):

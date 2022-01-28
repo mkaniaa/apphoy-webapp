@@ -7,3 +7,24 @@
     height: 100vh;
     background-color: #6095eb;
 }
+
+.navbar ul{
+    text-decoration: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li a{
+    display: block;
+    color: white;
+    line-height: 5vh;
+    padding-left: 3.5vh;
+}
+
+.navbar ul li a:hover{
+    border-left: 4px solid #4c3ec9;
+    transition: .2s;
+    background: #6ee2f5;
+    counter-reset: white;
+}
