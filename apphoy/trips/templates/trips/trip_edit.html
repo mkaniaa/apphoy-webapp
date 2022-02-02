@@ -1,0 +1,17 @@
+{% extends "trips/trip_manage_base.html" %}
+{% load static %}
+
+{% block section_view %}
+    <div class="form-container">
+        <div class="form-content">
+            <form action="." method="post">
+                {{ form }}
+                {% csrf_token %}
+                <div class="form-buttons">
+                    <a href="{% url "trip_edit" view.kwargs.trip_pk %}" class="form-exit" id="cancel">Cancel</a>
+                    <input id="confirm-form-btn" type="submit" name="action" value="Save">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,15 +1,16 @@
 @import "base.css";
 
 .item-list {
-  border-collapse: collapse;
-  width: 100%;
-  font-size:14px;
-  empty-cells: show;
+    flex-grow: 1;
+    border-collapse: collapse;
+    font-size:14px;
+    empty-cells: show;
+    align-self: flex-start;
 }
 
 .item-list td, .item-list th {
-  border: 1px solid #ddd;
-  padding: 8px;
+    border: 1px solid #ddd;
+    padding: 8px;
 }
 
 .item-list tr:nth-child(even){background-color: #f2f2f2;}
@@ -20,15 +21,15 @@
 }
 
 .item-list .header {
-  background:linear-gradient(to bottom right, #6ee2f5, #4c3ec9);
+    background:linear-gradient(to bottom right, #6ee2f5, #4c3ec9);
 }
 
 .item-list th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: center;
-  color: white;
-  font-weight:300;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    color: white;
+    font-weight:300;
 }
 
 .item-list tr td {
@@ -36,6 +37,6 @@
 }
 
 .check-cell {
-  text-align: center;
-  vertical-align: middle;
+    text-align: center;
+    vertical-align: middle;
 }

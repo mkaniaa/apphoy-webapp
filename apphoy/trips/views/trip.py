@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
@@ -70,10 +71,15 @@ class TripAddView(ManageTripMixin, CreateView):
     form_class = TripManageForm
 
 
-class TripEditView(ManageTripMixin, UpdateView):
+class TripEditView(SuccessMessageMixin, ManageTripMixin, UpdateView):
     model = Trip
     permission_required = 'trips.change_trip'
     fields = get_field_names(model, exclude=['id', 'stages'])
+    template_name = 'trips/trip_edit.html'
+    success_message = "Trip changes saved!"
 
     def get_object(self, queryset=None):
-        return Trip.objects.get(pk=self.kwargs.get("pk"))
+        return Trip.objects.get(pk=self.kwargs.get("trip_pk"))
+
+    def get_success_url(self):
+        return reverse_lazy('trip_edit', kwargs={"trip_pk": self.kwargs.get("trip_pk")})

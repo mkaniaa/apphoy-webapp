@@ -12,13 +12,22 @@
                 <option selected value="{% url "trip_list" %}">Trips</option>
             </select>
         </div>
+        <h1>Trips</h1>
         <ul>
-            <li><button id="group-remove" type="submit" disabled>Remove</button></li>
-            <li><button class="open-form-btn" id="add-form-btn">Add</button></li>
+            <li>
+                <button id="group-remove" type="submit" disabled>
+                    <i class="fa-solid fa-minus"></i>&nbsp; Remove
+                </button>
+            </li>
+            <li>
+                <button class="open-form-btn">
+                    <i class="fa-solid fa-plus"></i>&nbsp; Add
+                </button>
+            </li>
         </ul>
 	</header>
-    <div class="popup-form-container">
-        <div class="popup-form-content">
+    <div class="popup-form form-container">
+        <div class="form-content">
             <h3>{% if target %}Update{% else %}Add{% endif %} trip:</h3>
             <form action="." method="post">
                 {{ form }}
@@ -31,34 +40,35 @@
             <a href="{% url "trip_list" %}" class="form-exit" id="x-btn">x</a>
         </div>
     </div>
-
-    <table class="item-list">
-        <tr class="header">
-            <th>
-                <input type="checkbox" id="select-all"/>
-            </th>
-            {% for h in headers %}
-                <th>{{ h }}</th>
-            {% endfor %}
-        </tr>
-        {% for trip in object_list %}
-            <tr id="{{ trip.id }}" class="">
-                <td class="check-cell">
-                    <input type="checkbox" value="{{ trip.id }}"/>
-                </td>
-                {% for attr in attributes %}
-                    <td onclick="window.location='{% url "trip_stages" trip.id %}';">
-                        {% attribute_value trip attr as attr_value %}
-                        {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
-                    </td>
+    <div class="sub-content">
+        <table class="item-list">
+            <tr class="header">
+                <th>
+                    <input type="checkbox" id="select-all"/>
+                </th>
+                {% for h in headers %}
+                    <th>{{ h }}</th>
                 {% endfor %}
             </tr>
-        {% empty %}
-            <tr>
-                <td colspan="{{ headers|length|add:"1" }}" class="no-result"><p>No trips in the database.</p></td>
-            </tr>
-        {% endfor %}
-    </table>
+            {% for trip in object_list %}
+                <tr id="{{ trip.id }}" class="">
+                    <td class="check-cell">
+                        <input type="checkbox" value="{{ trip.id }}"/>
+                    </td>
+                    {% for attr in attributes %}
+                        <td onclick="window.location='{% url "trip_edit" trip.id %}';">
+                            {% attribute_value trip attr as attr_value %}
+                            {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="{{ headers|length|add:"1" }}" class="no-result"><p>No trips in the database.</p></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}
 
 {% block domready %}
