@@ -3,9 +3,8 @@
 }
 
 .navbar {
-    width: 15vw;
     height: 100vh;
-    min-width: 180px;
+    width: 200px;
     background-color: #6095eb;
 }
 

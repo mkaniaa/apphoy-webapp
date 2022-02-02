@@ -14,7 +14,7 @@ class TripStageManageForm(forms.ModelForm):
 
     class Meta:
         model = TripStage
-        fields = get_field_names(model, exclude=["id"])
+        fields = get_field_names(model, exclude=["id", "slug"])
 
     def __init__(self, *args, **kwargs):
         if kwargs.get("initial"):
@@ -23,6 +23,7 @@ class TripStageManageForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(TripStageManageForm, self).clean()
-        cleaned_data['slug'] = slugify(cleaned_data['name'])
-        cleaned_data['trip'] = get_object_or_404(Trip, pk=self.trip_pk)
+        cleaned_data["slug"] = slugify(cleaned_data["name"])
+        cleaned_data["trip"] = get_object_or_404(Trip, pk=self.trip_pk)
+        print(cleaned_data)
         return cleaned_data

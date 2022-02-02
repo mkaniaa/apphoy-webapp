@@ -16,8 +16,8 @@ class TripStagesManageView(LoginRequiredMixin, ListView):
     trip_stage_pk = None
 
     def get_context_data(self, **kwargs):
-        headers = get_verbose_field_names(self.model, exclude=['ID', 'slug'])
-        attributes = get_field_names(self.model, exclude=['id', 'slug', 'stages'])
+        headers = get_verbose_field_names(self.model, exclude=["ID", "slug", "trip"])
+        attributes = get_field_names(self.model, exclude=["id", "slug", "trip"])
         context = super(TripStagesManageView, self).get_context_data(**kwargs)
         context['headers'] = headers
         context['attributes'] = attributes
