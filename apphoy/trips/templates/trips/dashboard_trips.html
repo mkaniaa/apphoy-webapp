@@ -17,8 +17,8 @@
             <li><button class="open-form-btn" id="add-form-btn">Add</button></li>
         </ul>
 	</header>
-    <div class="popup-form-container">
-        <div class="popup-form-content">
+    <div class="popup-form form-container">
+        <div class="form-content">
             <h3>{% if target %}Update{% else %}Add{% endif %} trip:</h3>
             <form action="." method="post">
                 {{ form }}
@@ -47,7 +47,7 @@
                         <input type="checkbox" value="{{ trip.id }}"/>
                     </td>
                     {% for attr in attributes %}
-                        <td onclick="window.location='{% url "trip_stages" trip.id %}';">
+                        <td onclick="window.location='{% url "trip_edit" trip.id %}';">
                             {% attribute_value trip attr as attr_value %}
                             {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
                         </td>

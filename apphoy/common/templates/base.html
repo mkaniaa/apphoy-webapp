@@ -38,7 +38,7 @@
         $(document).ready(function() {
             {% block domready %}
             {% endblock %}
-            let formContainer = $('.popup-form-container')
+            let formContainer = $('.popup-form')
             {% if form.errors %}
                 formContainer.css('transform', 'scale(1)');
             {% elif target %}

@@ -1,21 +1,30 @@
 @import "base.css";
 
-.popup-form-container {
+.popup-form {
+    background: rgba(0,0,0,.3);
+    transform: scale(0);
+    overflow: auto;
+    position: fixed !important;
+}
+
+.popup-form .form-content {
+    top: 25vh !important;
+    left: 25vw !important;
+}
+
+.form-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     min-width: 100vw;
     max-width: 200vw;
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
-    background: rgba(0,0,0,.3);
-    transform: scale(0);
-    overflow: auto;
 }
 
-.popup-form-content {
+.form-content {
     margin: 2vw;
     min-height: min-content;
     min-width: 20rem;
@@ -24,30 +33,31 @@
     background: #fff;
     border-radius: 5px;
     text-align: center;
-    position: relative;
     max-height: 40vw;
     overflow-y: auto;
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 
-.popup-form-content form {
+.form-content form {
     display: flex;
     flex-flow: column wrap;
     align-content: flex-start;
     text-align: left;
 }
 
-.popup-form-content .errorlist {
+.form-content .errorlist {
     position: relative;
     top: -10px;
-    list-style:none;
+    list-style: none;
     color: red;
     text-align: left;
     padding: 0;
-    list-style-type: none;
     font-size: 14px;
 }
 
-.popup-form-content form label {
+.form-content form label {
     margin-top: 0.5rem;
 }
 
@@ -55,7 +65,7 @@
     border: 2px solid red !important;
 }
 
-.popup-form-container input[type=text], input[type=email] {
+.form-container input[type=text], input[type=email] {
     width: 100%;
     padding: 6px 10px;
     margin: 4px 0;
@@ -65,7 +75,7 @@
     box-sizing: border-box;
 }
 
-.popup-form-container input[type=submit]:hover, #cancel:hover {
+.form-container input[type=submit]:hover, #cancel:hover {
   background-color: #585858;
 }
 

@@ -74,6 +74,7 @@ class TripEditView(ManageTripMixin, UpdateView):
     model = Trip
     permission_required = 'trips.change_trip'
     fields = get_field_names(model, exclude=['id', 'stages'])
+    template_name = 'trips/trip_edit.html'
 
     def get_object(self, queryset=None):
-        return Trip.objects.get(pk=self.kwargs.get("pk"))
+        return Trip.objects.get(pk=self.kwargs.get("trip_pk"))

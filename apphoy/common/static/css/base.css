@@ -61,6 +61,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .sub-header ul {
@@ -73,7 +74,7 @@ h1, h2, h3, h4, h5, h6 {
     float: right;
 }
 
-.sub-header button, .sub-header a{
+.sub-header button, .back-button {
     display: inline-block;
     cursor: pointer;
     border: none;
@@ -81,17 +82,29 @@ h1, h2, h3, h4, h5, h6 {
     color: #585858;
 }
 
-.sub-header a {
-    padding: 0.95em;
+.back-button a {
+    color: #585858;
+    vertical-align: middle;
+    display: table-cell;
+    height: 50px;
+    padding: 0 15px 0 15px;
+}
+
+.back-button {
     font-size: 15px;
     font-weight: 400;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
 }
 
 .sub-header button {
     padding: 1.15em;
 }
 
-.sub-header button:hover:not([disabled]), .sub-header a:hover {
+.sub-header button:hover:not([disabled]), .back-button:hover, .back-button:hover a{
     background-color: #585858;
     color: #a4a4a4;
 }
@@ -101,6 +114,13 @@ h1, h2, h3, h4, h5, h6 {
     color: white;
     cursor: context-menu;
     opacity: 0.5;
+}
+
+.sub-header h1 {
+    text-align: center;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .no-result {

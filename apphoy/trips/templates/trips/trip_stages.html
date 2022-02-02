@@ -1,19 +1,17 @@
-{% extends "base.html" %}
+{% extends "trips/trip_manage_base.html" %}
 {% load static %}
 {% load common_tags %}
 
-{% block title %}Trip stages{% endblock %}
+{% block additional_buttons %}
+    <ul>
+        <li><button id="group-remove" type="submit" disabled><i class="fa-solid fa-minus"></i>&nbsp; Remove</button></li>
+        <li><button id="add-form-btn"><i class="fa-solid fa-plus"></i>&nbsp; Add</button></li>
+    </ul>
+{% endblock %}
 
-{% block content %}
-	<header class="sub-header">
-        <a href="{% url "trip_list" %}" id="back-to-trips-btn"><i class="fa-solid fa-chevron-left"></i>&nbsp; Back to Trips</a>
-        <ul>
-            <li><button id="group-remove" type="submit" disabled><i class="fa-solid fa-minus"></i>&nbsp; Remove</button></li>
-            <li><button id="add-form-btn"><i class="fa-solid fa-plus"></i>&nbsp; Add</button></li>
-        </ul>
-	</header>
-    <div class="popup-form-container">
-        <div class="popup-form-content">
+{% block section_form %}
+    <div class="popup-form form-container">
+        <div class="form-content">
             <h3>{% if target %}Update{% else %}Add{% endif %} trip stage:</h3>
             <form action="." method="post">
                 {{ form }}
@@ -26,47 +24,41 @@
             <a href="{% url "trip_stages" view.kwargs.trip_pk %}" class="form-exit" id="x-btn">x</a>
         </div>
     </div>
-    <div class="sub-content">
-        <nav class="navbar">
-            <ul>
-                <li><a href="#"><i class="fa-solid fa-calendar-week"></i>&nbsp; Details</a></li>
-                <li><a href="#"><i class="fa-solid fa-project-diagram"></i>&nbsp; Stages</a></li>
-                <li><a href="#"><i class="fa-solid fa-user-friends"></i>&nbsp; Participants</a></li>
-            </ul>
-        </nav>
-        <table class="item-list">
-            <tr class="header">
-                <th>
-                    <input type="checkbox" id="select-all"/>
-                </th>
-                {% for h in headers %}
-                    <th>{{ h }}</th>
-                {% endfor %}
-            </tr>
-            {% for trip_stage in object_list %}
-                <tr id="{{ trip_stage.id }}" class="">
-                    <td class="check-cell">
-                        <input type="checkbox" value="{{ trip_stage.id }}"/>
-                    </td>
-                    {% for attr in attributes %}
-                        <td onclick="window.location='{% url "trip_stage_edit" view.kwargs.trip_pk trip_stage.id %}';">
-                            {% attribute_value trip_stage attr as attr_value %}
-                            {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
-                        </td>
-                    {% endfor %}
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="{{ headers|length|add:"1" }}" class="no-result">
-                        <p>No trip stages for this trip in the database.</p>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
 {% endblock %}
 
-{% block domready %}
+{% block section_view %}
+    <table class="item-list">
+        <tr class="header">
+            <th>
+                <input type="checkbox" id="select-all"/>
+            </th>
+            {% for h in headers %}
+                <th>{{ h }}</th>
+            {% endfor %}
+        </tr>
+        {% for trip_stage in object_list %}
+            <tr id="{{ trip_stage.id }}" class="">
+                <td class="check-cell">
+                    <input type="checkbox" value="{{ trip_stage.id }}"/>
+                </td>
+                {% for attr in attributes %}
+                    <td onclick="window.location='{% url "trip_stage_edit" view.kwargs.trip_pk trip_stage.id %}';">
+                        {% attribute_value trip_stage attr as attr_value %}
+                        {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="{{ headers|length|add:"1" }}" class="no-result">
+                    <p>No trip stages for this trip in the database.</p>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block additional_js %}
     var checkboxes = $("input[type='checkbox']"),
         removeButton = $("#group-remove"),
         selectAllCheck = $("#select-all");
@@ -108,14 +100,4 @@
             }
         }
     });
-
-     {% if messages %}
-        var message = "";
-        {% for message in messages %}
-            var message = message + "{{ message }}";
-        {% endfor %}
-
-        alert(message);
-        window.history.back();
-    {% endif %}
 {% endblock %}

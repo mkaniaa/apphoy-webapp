@@ -5,6 +5,7 @@
 .navbar {
     width: 15vw;
     height: 100vh;
+    min-width: 180px;
     background-color: #6095eb;
 }
 
@@ -18,8 +19,8 @@
 .navbar ul li a{
     display: block;
     color: white;
-    line-height: 5vh;
-    padding-left: 3.5vh;
+    line-height: 60px;
+    padding-left: 40px;
 }
 
 .navbar ul li a:hover{

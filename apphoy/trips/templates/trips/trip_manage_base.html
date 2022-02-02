@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% load common_tags %}
+{% load manage_trip_tags %}
+
+{% block title %}Manage trip: {% trip_name view.kwargs.trip_pk %}{% endblock %}
+
+{% block content %}
+	<header class="sub-header">
+        <div class="back-button">
+            <a href="{% url "trip_list" %}"><i class="fa-solid fa-chevron-left"></i>&nbsp; Back to Trips</a>
+        </div>
+        <h1>Manage trip: {% trip_name view.kwargs.trip_pk %}</h1>
+    {% block additional_buttons %}{% endblock %}
+	</header>
+    {% block section_form %}{% endblock %}
+    <div class="sub-content">
+        <nav class="navbar">
+            <ul>
+                <li>
+                    <a href="{% url "trip_edit" view.kwargs.trip_pk %}">
+                        <i class="fa-solid fa-calendar-week"></i>&nbsp; Details
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url "trip_stages" view.kwargs.trip_pk %}">
+                        <i class="fa-solid fa-project-diagram"></i>&nbsp; Stages
+                    </a>
+                </li>
+                <li><a href="#"><i class="fa-solid fa-user-friends"></i>&nbsp; Participants</a></li>
+            </ul>
+        </nav>
+        {% block section_view %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block domready %}
+    {% if messages %}
+        var message = "";
+        {% for message in messages %}
+            var message = message + "{{ message }}";
+        {% endfor %}
+
+        alert(message);
+        window.history.back();
+    {% endif %}
+
+    {% block additional_js %}{% endblock %}
+{% endblock %}
