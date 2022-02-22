@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'persons.apps.PersonsConfig',
     'trips.apps.TripsConfig',
     'common.apps.CommonConfig',
+    'dashboard.apps.DashboardConfig',
 ]
 
 MIDDLEWARE = [

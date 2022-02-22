@@ -26,3 +26,5 @@ services:
     depends_on:
       apphoy_db:
         condition: service_healthy
+    links:
+      - apphoy_db:db

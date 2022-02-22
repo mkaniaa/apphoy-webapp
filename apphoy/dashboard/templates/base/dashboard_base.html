@@ -3,12 +3,12 @@
 {% load common_tags %}
 {% load manage_trip_tags %}
 
-{% block title %}{% dashboard_title %}{% endblock %}
+{% block title %}{{ dashboard_title }}{% endblock %}
 
 {% block content %}
 
 	<header class="sub-header">
-        <h1>{% dashboard_title %}</h1>
+        <h1>{{ dashboard_title }}</h1>
         <ul>
             <li>
                 <button id="group-remove" type="submit" disabled>
@@ -114,7 +114,7 @@
                     },
                     function(response, status) {
                         if ($(response).find('.no-permission').length) {
-                            window.location.replace("{% url "dashboard_no_permission" %}");
+                            window.location.replace("{% url "no_permission" %}");
                         } else {
                             for(var i=0; i < count; i++) {
                                 var removedRow = $('tr#' + ids[i]);

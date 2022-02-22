@@ -22,6 +22,8 @@ class DashboardListMixin:
         context["dashboard_title"] = self.dashboard_title
         context["edit_url_name"] = self.edit_url_name
 
+        return context
+
     def post(self, request, *args, **kwargs):
         try:
             if request.POST['action'] == 'Add':
