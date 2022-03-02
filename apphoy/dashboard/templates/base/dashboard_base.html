@@ -23,7 +23,22 @@
         </ul>
 	</header>
 
-    {% block section_form %}{% endblock %}
+    {% block section_form %}
+        <div class="popup-form form-container">
+            <div class="form-content">
+                <h3>{% if target %}Update{% else %}Add{% endif %}</h3>
+                <form action="." method="post">
+                    {{ form }}
+                    {% csrf_token %}
+                    <div class="form-buttons">
+                        <a href="{% url main_url_name %}" class="form-exit" id="cancel">Cancel</a>
+                        <input id="confirm-form-btn" type="submit" name="action" value="Add">
+                    </div>
+                </form>
+                <a href="{% url main_url_name %}" class="form-exit" id="x-btn">x</a>
+            </div>
+        </div>
+    {% endblock %}
 
     <div class="sub-content">
 
@@ -44,52 +59,54 @@
             </nav>
         {% endblock %}
 
-        <table class="item-list">
-            <tr class="header">
-                <th>
-                    <input type="checkbox" id="select-all"/>
-                </th>
-                {% for h in headers %}
-                    <th>{{ h }}</th>
-                {% endfor %}
-            </tr>
-            {% for obj in object_list %}
-                <tr id="{{ obj.id }}" class="">
-                    <td class="check-cell">
-                        <input type="checkbox" value="{{ obj.id }}"/>
-                    </td>
-                    {% for attr in attributes %}
-                        <td onclick="window.location='{% url edit_url_name obj.id %}';">
-                            {% attribute_value obj attr as attr_value %}
-                            {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
-                        </td>
+        {% block items %}
+            <table class="item-list">
+                <tr class="header">
+                    <th>
+                        <input type="checkbox" id="select-all"/>
+                    </th>
+                    {% for h in headers %}
+                        <th>{{ h }}</th>
                     {% endfor %}
                 </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="{{ headers|length|add:"1" }}" class="no-result">
-                        <p>No objects in the database.</p>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
+                {% for obj in object_list %}
+                    <tr id="{{ obj.id }}" class="">
+                        <td class="check-cell">
+                            <input type="checkbox" value="{{ obj.id }}"/>
+                        </td>
+                        {% for attr in attributes %}
+                            <td onclick="window.location='{% url edit_url_name obj.id %}';">
+                                {% attribute_value obj attr as attr_value %}
+                                {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="{{ headers|length|add:"1" }}" class="no-result">
+                            <p>No objects in the database.</p>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endblock %}
 
     </div>
 {% endblock %}
 
 {% block domready %}
     {% if messages %}
-        var message = "";
+        let message = "";
         {% for message in messages %}
-            var message = message + "{{ message }}";
+            message = message + "{{ message }}";
         {% endfor %}
 
         alert(message);
         window.history.back();
     {% endif %}
 
-    let checkboxes = $("input[type='checkbox']"),
-    let removeButton = $("#group-remove"),
+    let checkboxes = $("input[type='checkbox']");
+    let removeButton = $("#group-remove");
     let selectAllCheck = $("#select-all");
 
     selectAllCheck.click(function() {
@@ -98,13 +115,13 @@
     checkboxes.click(function() {
         removeButton.prop("disabled", !checkboxes.is(":checked"));
     });
-    var ids = [];
+    let ids = [];
     const pluralize = (count, noun, suffix = 's') => `${noun}${count !== 1 ? suffix : ''}`;
     removeButton.click(function() {
         $(':checkbox:checked').each(function(i) {
             ids[i] = $(this).val();
         });
-        var count = ids.length;
+        let count = ids.length;
         if(count > 0) {
             if (confirm("Are you sure you want to remove " + count + " " + pluralize(count, 'object') + "?")) {
                 $.post('',
@@ -116,8 +133,8 @@
                         if ($(response).find('.no-permission').length) {
                             window.location.replace("{% url "no_permission" %}");
                         } else {
-                            for(var i=0; i < count; i++) {
-                                var removedRow = $('tr#' + ids[i]);
+                            for(let i=0; i < count; i++) {
+                                let removedRow = $('tr#' + ids[i]);
                                 removedRow.css('background-color', '#ccc');
                                 removedRow.fadeOut('slow');
                                 removedCheckbox = $("input[type='checkbox'][value=" + ids[i] + "]");

@@ -25,11 +25,11 @@
                 {{ form }}
                 {% csrf_token %}
                 <div class="form-buttons">
-                    <a href="{% url "trip_stages" view.kwargs.trip_pk %}" class="form-exit" id="cancel">Cancel</a>
+                    <a href="{% url "trip_stage_list" view.kwargs.trip_pk %}" class="form-exit" id="cancel">Cancel</a>
                     <input id="confirm-form-btn" type="submit" name="action" value="Add">
                 </div>
             </form>
-            <a href="{% url "trip_stages" view.kwargs.trip_pk %}" class="form-exit" id="x-btn">x</a>
+            <a href="{% url "trip_stage_list" view.kwargs.trip_pk %}" class="form-exit" id="x-btn">x</a>
         </div>
     </div>
 {% endblock %}
@@ -93,7 +93,7 @@
                     },
                     function(response, status) {
                         if ($(response).find('.no-permission').length) {
-                            window.location.replace("{% url "trip_no_permission" %}");
+                            window.location.replace("{% url "no_permission" %}");
                         } else {
                             for(var i=0; i < count; i++) {
                                 var removedRow = $('tr#' + ids[i]);

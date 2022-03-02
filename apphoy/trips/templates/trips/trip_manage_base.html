@@ -6,6 +6,7 @@
 {% block title %}Manage trip: {% trip_name view.kwargs.trip_pk %}{% endblock %}
 
 {% block content %}
+
 	<header class="sub-header">
         <div class="back-button">
             <a href="{% url "trip_list" %}"><i class="fa-solid fa-chevron-left"></i>&nbsp; Back to Trips</a>
@@ -13,7 +14,9 @@
         <h1>Manage trip: {% trip_name view.kwargs.trip_pk %}</h1>
     {% block additional_buttons %}{% endblock %}
 	</header>
+
     {% block section_form %}{% endblock %}
+
     <div class="sub-content">
         <nav class="navbar">
             <ul>
@@ -23,7 +26,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url "trip_stages" view.kwargs.trip_pk %}">
+                    <a href="{% url "trip_stage_list" view.kwargs.trip_pk %}">
                         <i class="fa-solid fa-project-diagram"></i>&nbsp; Stages
                     </a>
                 </li>
