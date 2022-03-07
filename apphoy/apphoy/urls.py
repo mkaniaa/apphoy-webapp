@@ -27,5 +27,4 @@ urlpatterns = [
     path('', redirect_view, name='main'),
     path('persons/', include('persons.urls')),
     path('trips/', include('trips.urls')),
-    path('dashboard/', include('dashboard.urls')),
 ]

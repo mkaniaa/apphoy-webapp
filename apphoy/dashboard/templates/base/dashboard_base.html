@@ -47,7 +47,7 @@
                 <ul>
                     <li>
                         <a href="{% url "person_list" %}">
-                            <i class="fa-solid fa-user-friends"></i>&nbsp; Participants
+                            <i class="fa-solid fa-user-friends"></i>&nbsp; Persons
                         </a>
                     </li>
                     <li>
@@ -102,7 +102,6 @@
         {% endfor %}
 
         alert(message);
-        window.history.back();
     {% endif %}
 
     let checkboxes = $("input[type='checkbox']");
@@ -124,25 +123,26 @@
         let count = ids.length;
         if(count > 0) {
             if (confirm("Are you sure you want to remove " + count + " " + pluralize(count, 'object') + "?")) {
-                $.post('',
-                    {
-                        'action': 'Delete',
-                        ids
+                $.ajax({
+                    type: "POST",
+                    url: "",
+                    data: { "action": "Delete", ids },
+                    success: function(response, status) {
+                        console.log(status);
+                        for(let i=0; i < count; i++) {
+                            let removedRow = $('tr#' + ids[i]);
+                            removedRow.css('background-color', '#ccc');
+                            removedRow.fadeOut('slow');
+                            removedCheckbox = $("input[type='checkbox'][value=" + ids[i] + "]");
+                            removedCheckbox.prop('checked', false);
+                        }
                     },
-                    function(response, status) {
-                        if ($(response).find('.no-permission').length) {
-                            window.location.replace("{% url "no_permission" %}");
-                        } else {
-                            for(let i=0; i < count; i++) {
-                                let removedRow = $('tr#' + ids[i]);
-                                removedRow.css('background-color', '#ccc');
-                                removedRow.fadeOut('slow');
-                                removedCheckbox = $("input[type='checkbox'][value=" + ids[i] + "]");
-                                removedCheckbox.prop('checked', false);
-                            }
+                    statusCode: {
+                        403: function() {
+                            window.location.reload();
                         }
                     }
-                );
+                });
             }
         }
     });

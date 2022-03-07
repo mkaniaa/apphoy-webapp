@@ -1,5 +1,8 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
+from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.urls import reverse_lazy
@@ -38,8 +41,11 @@ class DashboardListMixin:
                 return self.render_edit_view(request, kwargs)
             else:
                 return self.render_delete_view(request, kwargs)
+
         except PermissionDenied:
-            return redirect(reverse("no_permission"))
+            messages.error(request, "You have no permission for this action!")
+            status = 403 if request.POST["action"] == "Delete" else 302
+            return HttpResponseRedirect(request.path_info, status=status)
 
     def render_add_view(self, request, kwargs):
         return self.get_add_view().as_view()(request)
@@ -86,9 +92,11 @@ class DashboardDeleteMixin:
 
     def post(self, request, *args, **kwargs):
         obj_ids = request.POST.getlist("ids[]")
+        print(f"objects: {obj_ids}")
         for obj_id in obj_ids:
             obj = get_object_or_404(self.model, id=obj_id)
             obj.delete()
+            print(f"obj {obj_id} removed")
         return redirect(self.get_success_url())
 
     def get_success_url(self):

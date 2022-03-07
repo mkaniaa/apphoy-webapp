@@ -2,7 +2,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, UpdateView, ListView
 from django.views.generic.base import View
-
 from common.models import get_field_names
 from dashboard.mixins import DashboardListMixin, ManageDashboardMixin, DashboardEditMixin, DashboardDeleteMixin
 from .forms import PersonManageForm
