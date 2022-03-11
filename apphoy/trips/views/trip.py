@@ -1,5 +1,7 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView
 from django.views.generic.base import View
@@ -38,6 +40,16 @@ class TripEditView(
             "trip_edit",
             kwargs={self.pk_url_name: self.kwargs.get(self.pk_url_name)}
         )
+
+    def has_permission(self):
+        return True if self.request.method == "GET" else super(TripEditView, self).has_permission()
+
+    def handle_no_permission(self):
+        if self.raise_exception or self.request.user.is_authenticated:
+            messages.error(self.request, "You have no permission for this action!")
+            return HttpResponseRedirect(self.request.path_info)
+
+        return super(TripEditView, self).handle_no_permission()
 
 
 class TripDeleteView(ManageTripMixin, DashboardDeleteMixin, View):

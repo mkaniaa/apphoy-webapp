@@ -55,6 +55,10 @@ class TripStageManageView(DashboardListMixin, LoginRequiredMixin, ListView):
     trip_stage_pk = None
     pk_url_name = "trip_stage_pk"
 
+    def get_queryset(self):
+        queryset = super(TripStageManageView, self).get_queryset()
+        return queryset.filter(trip=self.kwargs.get("trip_pk"))
+
     def get_context_data(self, **kwargs):
         context = super(TripStageManageView, self).get_context_data(**kwargs)
         context["target"] = self.trip_stage_pk

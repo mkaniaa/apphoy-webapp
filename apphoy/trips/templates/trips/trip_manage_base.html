@@ -35,18 +35,5 @@
         </nav>
         {% block section_view %}{% endblock %}
     </div>
-{% endblock %}
 
-{% block domready %}
-    {% if messages %}
-        var message = "";
-        {% for message in messages %}
-            var message = message + "{{ message }}";
-        {% endfor %}
-
-        alert(message);
-        window.history.back();
-    {% endif %}
-
-    {% block additional_js %}{% endblock %}
 {% endblock %}

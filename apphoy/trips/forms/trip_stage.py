@@ -24,8 +24,5 @@ class TripStageManageForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(TripStageManageForm, self).clean()
         cleaned_data["slug"] = slugify(cleaned_data["name"])
-        print(f"before get: {cleaned_data}")
-        print(f"trip_pk: {self.trip_pk}")
         cleaned_data["trip"] = get_object_or_404(Trip, pk=self.trip_pk)
-        print(f"after get: {cleaned_data}")
         return cleaned_data
