@@ -1,8 +1,0 @@
-{% extends "base.html" %}
-{%  block content %}
-    <span class="no-permission"></span>
-{% endblock %}
-{% block domready %}
-    alert("You have no permission for this action!");
-    window.location.replace("{% url "trip_list" %}");
-{% endblock %}

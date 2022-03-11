@@ -25,11 +25,11 @@
                 {{ form }}
                 {% csrf_token %}
                 <div class="form-buttons">
-                    <a href="{% url "trip_stages" view.kwargs.trip_pk %}" class="form-exit" id="cancel">Cancel</a>
+                    <a href="{% url "trip_stage_list" view.kwargs.trip_pk %}" class="form-exit" id="cancel">Cancel</a>
                     <input id="confirm-form-btn" type="submit" name="action" value="Add">
                 </div>
             </form>
-            <a href="{% url "trip_stages" view.kwargs.trip_pk %}" class="form-exit" id="x-btn">x</a>
+            <a href="{% url "trip_stage_list" view.kwargs.trip_pk %}" class="form-exit" id="x-btn">x</a>
         </div>
     </div>
 {% endblock %}
@@ -64,48 +64,4 @@
             </tr>
         {% endfor %}
     </table>
-{% endblock %}
-
-{% block additional_js %}
-    var checkboxes = $("input[type='checkbox']"),
-        removeButton = $("#group-remove"),
-        selectAllCheck = $("#select-all");
-
-    selectAllCheck.click(function() {
-        checkboxes.not(this).prop("checked", this.checked);
-    });
-    checkboxes.click(function() {
-        removeButton.prop("disabled", !checkboxes.is(":checked"));
-    });
-    var ids = [];
-    const pluralize = (count, noun, suffix = 's') => `${noun}${count !== 1 ? suffix : ''}`;
-    removeButton.click(function() {
-        $(':checkbox:checked').each(function(i) {
-            ids[i] = $(this).val();
-        });
-        var count = ids.length;
-        if(count > 0) {
-            if (confirm("Are you sure you want to remove " + count + " " + pluralize(count, 'trip') + "?")) {
-                $.post('',
-                    {
-                        'action': 'Delete',
-                        ids
-                    },
-                    function(response, status) {
-                        if ($(response).find('.no-permission').length) {
-                            window.location.replace("{% url "trip_no_permission" %}");
-                        } else {
-                            for(var i=0; i < count; i++) {
-                                var removedRow = $('tr#' + ids[i]);
-                                removedRow.css('background-color', '#ccc');
-                                removedRow.fadeOut('slow');
-                                removedCheckbox = $("input[type='checkbox'][value=" + ids[i] + "]");
-                                removedCheckbox.prop('checked', false);
-                            }
-                        }
-                    }
-                );
-            }
-        }
-    });
 {% endblock %}

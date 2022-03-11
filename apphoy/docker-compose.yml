@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  db:
+  apphoy_db:
     image: postgres
     volumes:
       - ./data/db:/var/lib/postgresql/data
@@ -16,7 +16,7 @@ services:
         interval: 5s
         timeout: 5s
         retries: 5
-  web:
+  apphoy_web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
@@ -24,5 +24,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      db:
+      apphoy_db:
         condition: service_healthy
+    links:
+      - apphoy_db:db

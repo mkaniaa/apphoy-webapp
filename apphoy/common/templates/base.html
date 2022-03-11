@@ -8,10 +8,9 @@
     <link href="{% static "css/select-menu.css" %}" rel="stylesheet">
     <link href="{% static "css/forms.css" %}" rel="stylesheet">
     <link href="{% static "css/item-list.css" %}" rel="stylesheet">
-    <link href="{% static "css/trips.css" %}" rel="stylesheet">
     <link href="{% static "css/sidebar.css" %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet"/>
-    <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static "fontawesomefree/css/all.min.css" %}" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div id="header">
@@ -33,26 +32,29 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="{% static 'js/csrf.js' %}"></script>
+    <script src="{% static "js/csrf.js" %}"></script>
+    <script src="{% static "js/dashboard.js" %}"></script>
     <script>
         $(document).ready(function() {
+
             {% block domready %}
             {% endblock %}
-            let formContainer = $('.popup-form')
+
+            let formContainer = $(".popup-form");
             {% if form.errors %}
-                formContainer.css('transform', 'scale(1)');
+                formContainer.css("transform", "scale(1)");
             {% elif target %}
-                formContainer.css('transform', 'scale(1)');
-                $('#confirm-form-btn').prop("value", "Update");
+                formContainer.css("transform", "scale(1)");
+                $("#confirm-form-btn").prop("value", "Update");
             {% else %}
-                formContainer.css('transform', 'scale(0)');
+                formContainer.css("transform", "scale(0)");
             {% endif %}
 
-            $('.open-form-btn').click(function() {
-                formContainer.css('transform', 'scale(1)');
+            $(".open-form-btn").click(function() {
+                formContainer.css("transform", "scale(1)");
             });
-            $('.form-exit').click(function() {
-                formContainer.css('transform', 'scale(0)');
+            $(".form-exit").click(function() {
+                formContainer.css("transform", "scale(0)");
             });
 
             $(".date-picker").datepicker({
@@ -63,6 +65,16 @@
                 selectOtherMonths: true,
                 yearRange: "-90:+0"
             });
+
+            {% if messages %}
+                let message = "";
+                {% for message in messages %}
+                    message = message + "{{ message }}";
+                {% endfor %}
+
+                alert(message);
+            {% endif %}
+
         });
     </script>
 </body>

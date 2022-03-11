@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+{% load common_tags %}
+{% load manage_trip_tags %}
+
+{% block title %}{{ dashboard_title }}{% endblock %}
+
+{% block content %}
+
+	<header class="sub-header">
+        <h1>{{ dashboard_title }}</h1>
+        <ul>
+            <li>
+                <button id="group-remove" type="submit" disabled>
+                    <i class="fa-solid fa-minus"></i>&nbsp; Remove
+                </button>
+            </li>
+            <li>
+                <button class="open-form-btn">
+                    <i class="fa-solid fa-plus"></i>&nbsp; Add
+                </button>
+            </li>
+        </ul>
+	</header>
+
+    {% block section_form %}
+        <div class="popup-form form-container">
+            <div class="form-content">
+                <h3>{% if target %}Update{% else %}Add{% endif %}</h3>
+                <form action="." method="post">
+                    {{ form }}
+                    {% csrf_token %}
+                    <div class="form-buttons">
+                        <a href="{% url main_url_name %}" class="form-exit" id="cancel">Cancel</a>
+                        <input id="confirm-form-btn" type="submit" name="action" value="Add">
+                    </div>
+                </form>
+                <a href="{% url main_url_name %}" class="form-exit" id="x-btn">x</a>
+            </div>
+        </div>
+    {% endblock %}
+
+    <div class="sub-content">
+
+        {% block navbar %}
+            <nav class="navbar">
+                <ul>
+                    <li>
+                        <a href="{% url "person_list" %}">
+                            <i class="fa-solid fa-user-friends"></i>&nbsp; Persons
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url "trip_list" %}">
+                            <i class="fa-solid fa-route"></i>&nbsp; Trips
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        {% endblock %}
+
+        {% block items %}
+            <table class="item-list">
+                <tr class="header">
+                    <th>
+                        <input type="checkbox" id="select-all"/>
+                    </th>
+                    {% for h in headers %}
+                        <th>{{ h }}</th>
+                    {% endfor %}
+                </tr>
+                {% for obj in object_list %}
+                    <tr id="{{ obj.id }}" class="">
+                        <td class="check-cell">
+                            <input type="checkbox" value="{{ obj.id }}"/>
+                        </td>
+                        {% for attr in attributes %}
+                            <td onclick="window.location='{% url edit_url_name obj.id %}';">
+                                {% attribute_value obj attr as attr_value %}
+                                {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="{{ headers|length|add:"1" }}" class="no-result">
+                            <p>No objects in the database.</p>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endblock %}
+
+    </div>
+{% endblock %}

@@ -9,8 +9,8 @@ from trips.models import TripStage, Trip
 class TripStageManageForm(forms.ModelForm):
     slug = forms.SlugField(widget=forms.HiddenInput, required=False)
     trip = forms.CharField(widget=forms.HiddenInput, required=False)
-    start_date = forms.DateField(widget=forms.TextInput(attrs={'class': "date-picker"}))
-    end_date = forms.DateField(widget=forms.TextInput(attrs={'class': "date-picker"}))
+    start_date = forms.DateField(widget=forms.TextInput(attrs={"class": "date-picker"}))
+    end_date = forms.DateField(widget=forms.TextInput(attrs={"class": "date-picker"}))
 
     class Meta:
         model = TripStage
@@ -25,5 +25,4 @@ class TripStageManageForm(forms.ModelForm):
         cleaned_data = super(TripStageManageForm, self).clean()
         cleaned_data["slug"] = slugify(cleaned_data["name"])
         cleaned_data["trip"] = get_object_or_404(Trip, pk=self.trip_pk)
-        print(cleaned_data)
         return cleaned_data
