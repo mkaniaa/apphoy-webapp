@@ -16,7 +16,6 @@ class ManageTripStageMixin(ManageDashboardMixin):
     fields = get_field_names(model, exclude=["id", "trip"])
     
     def get_success_url(self):
-        print(self.kwargs)
         return reverse_lazy(
             "trip_stage_list",
             kwargs={"trip_pk": self.kwargs["trip_pk"]}
@@ -31,8 +30,6 @@ class TripStageAddView(ManageTripStageMixin, CreateView):
     def get_initial(self):
         initial = super().get_initial()
         initial["trip_pk"] = self.kwargs.get("trip_pk")
-        print(f"kwargs: {self.kwargs}")
-        print(f"ustawiam initial: {initial['trip_pk']}")
         return initial
 
 

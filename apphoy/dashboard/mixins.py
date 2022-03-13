@@ -91,11 +91,9 @@ class DashboardDeleteMixin:
 
     def post(self, request, *args, **kwargs):
         obj_ids = request.POST.getlist("ids[]")
-        print(f"objects: {obj_ids}")
         for obj_id in obj_ids:
             obj = get_object_or_404(self.model, id=obj_id)
             obj.delete()
-            print(f"obj {obj_id} removed")
         return redirect(self.get_success_url())
 
     def get_success_url(self):
