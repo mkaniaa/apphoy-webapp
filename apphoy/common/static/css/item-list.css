@@ -20,8 +20,21 @@
     cursor:pointer;
 }
 
+.item-list td:hover input {
+    cursor:pointer;
+}
+
 .item-list .header {
-    background:linear-gradient(to bottom right, #6ee2f5, #4c3ec9);
+    background: linear-gradient(to bottom right, #6ee2f5, #4c3ec9);
+}
+
+.item-list .header th:hover {
+    background: #6095eb;
+}
+
+.item-list .header th:hover input {
+    background: #6095eb;
+    cursor:pointer;
 }
 
 .item-list th {
@@ -40,3 +53,4 @@
     text-align: center;
     vertical-align: middle;
 }
+

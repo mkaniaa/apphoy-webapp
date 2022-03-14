@@ -19,6 +19,14 @@ class DashboardListMixin:
     template_name = "base/dashboard_base.html"
     pk_url_name = "pk"
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        order_by = self.request.GET.get("sort_by")
+        if order_by:
+            return queryset.order_by(order_by)
+
+        return queryset
+
     def get_context_data(self, **kwargs):
         headers = get_verbose_field_names(self.model, exclude=self.exclude_fields)
         attributes = get_field_names(self.model, exclude=self.exclude_fields)

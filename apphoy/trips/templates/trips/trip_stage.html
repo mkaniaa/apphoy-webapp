@@ -46,7 +46,7 @@
         </tr>
         {% for trip_stage in object_list %}
             <tr id="{{ trip_stage.id }}" class="">
-                <td class="check-cell">
+                <td>
                     <input type="checkbox" value="{{ trip_stage.id }}"/>
                 </td>
                 {% for attr in attributes %}
