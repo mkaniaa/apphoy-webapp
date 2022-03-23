@@ -20,8 +20,21 @@
     cursor:pointer;
 }
 
+.item-list td:hover input {
+    cursor:pointer;
+}
+
 .item-list .header {
-    background:linear-gradient(to bottom right, #6ee2f5, #4c3ec9);
+    background: linear-gradient(to bottom right, #6ee2f5, #4c3ec9);
+}
+
+.item-list .header th:hover {
+    background: #6095eb;
+}
+
+.item-list .header th:hover input {
+    background: #6095eb;
+    cursor:pointer;
 }
 
 .item-list th {
@@ -39,4 +52,26 @@
 .check-cell {
     text-align: center;
     vertical-align: middle;
+}
+
+.item-list th {
+    cursor: pointer;
+}
+
+.item-list .th-sort-asc::after {
+    content: "\25b4";
+}
+
+.item-list .th-sort-desc::after {
+    content: "\25be";
+}
+
+.item-list .th-sort-asc::after,
+.item-list .th-sort-desc::after {
+    margin-left: 5px;
+}
+
+.item-list .th-sort-asc,
+.item-list .th-sort-desc {
+    background: rgba(0, 0, 0, 0.1);
 }

@@ -19,6 +19,14 @@ class DashboardListMixin:
     template_name = "base/dashboard_base.html"
     pk_url_name = "pk"
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        order_by = self.request.GET.get("sort_by")
+        if order_by:
+            return queryset.order_by(order_by)
+
+        return queryset
+
     def get_context_data(self, **kwargs):
         headers = get_verbose_field_names(self.model, exclude=self.exclude_fields)
         attributes = get_field_names(self.model, exclude=self.exclude_fields)
@@ -91,11 +99,9 @@ class DashboardDeleteMixin:
 
     def post(self, request, *args, **kwargs):
         obj_ids = request.POST.getlist("ids[]")
-        print(f"objects: {obj_ids}")
         for obj_id in obj_ids:
             obj = get_object_or_404(self.model, id=obj_id)
             obj.delete()
-            print(f"obj {obj_id} removed")
         return redirect(self.get_success_url())
 
     def get_success_url(self):
