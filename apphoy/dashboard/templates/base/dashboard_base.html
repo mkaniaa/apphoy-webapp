@@ -61,33 +61,37 @@
 
         {% block items %}
             <table class="item-list">
-                <tr class="header">
-                    <th>
-                        <input type="checkbox" id="select-all"/>
-                    </th>
-                    {% for h in headers %}
-                        <th>{{ h }}</th>
-                    {% endfor %}
-                </tr>
-                {% for obj in object_list %}
-                    <tr id="{{ obj.id }}" class="">
-                        <td>
-                            <input type="checkbox" value="{{ obj.id }}"/>
-                        </td>
-                        {% for attr in attributes %}
-                            <td onclick="window.location='{% url edit_url_name obj.id %}';">
-                                {% attribute_value obj attr as attr_value %}
-                                {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
-                            </td>
+                <thead>
+                    <tr class="header">
+                        <th>
+                            <input type="checkbox" id="select-all"/>
+                        </th>
+                        {% for h in headers %}
+                            <th>{{ h }}</th>
                         {% endfor %}
                     </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="{{ headers|length|add:"1" }}" class="no-result">
-                            <p>No objects in the database.</p>
-                        </td>
-                    </tr>
-                {% endfor %}
+                </thead>
+                <tbody>
+                    {% for obj in object_list %}
+                        <tr id="{{ obj.id }}" class="">
+                            <td>
+                                <input type="checkbox" value="{{ obj.id }}"/>
+                            </td>
+                            {% for attr in attributes %}
+                                <td onclick="window.location='{% url edit_url_name obj.id %}';">
+                                    {% attribute_value obj attr as attr_value %}
+                                    {% if attr_value %}{{ attr_value }}{% else %}&nbsp;{% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="{{ headers|length|add:"1" }}" class="no-result">
+                                <p>No objects in the database.</p>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         {% endblock %}
 

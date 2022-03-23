@@ -54,3 +54,24 @@
     vertical-align: middle;
 }
 
+.item-list th {
+    cursor: pointer;
+}
+
+.item-list .th-sort-asc::after {
+    content: "\25b4";
+}
+
+.item-list .th-sort-desc::after {
+    content: "\25be";
+}
+
+.item-list .th-sort-asc::after,
+.item-list .th-sort-desc::after {
+    margin-left: 5px;
+}
+
+.item-list .th-sort-asc,
+.item-list .th-sort-desc {
+    background: rgba(0, 0, 0, 0.1);
+}
