@@ -1,11 +1,8 @@
 let checkboxes = $("input[type='checkbox']");
 let removeButton = $("#group-remove");
-let selectAllCheck = $("#select-all");
-let checkboxCells = $(".item-list").find("tr").has("input[type='checkbox']")
-
-selectAllCheck.click(function() {
-    checkboxes.not(this).prop("checked", this.checked);
-});
+let table = $(".item-list")
+let headerChecks = table.find("th").has("input[type='checkbox']")
+let checkboxCells = headerChecks.add(table.find("td").has("input[type='checkbox']"))
 
 checkboxes.click(function() {
     removeButton.prop("disabled", !checkboxes.is(":checked"));
@@ -15,6 +12,11 @@ checkboxCells.on("click", function() {
     let checkbox = $(this).find("input[type='checkbox']");
     checkbox.prop("checked", !checkbox.prop("checked"));
 });
+
+function selectAll(selectAllCheckbox)
+{
+    checkboxes.not(selectAllCheckbox).prop("checked", !selectAllCheckbox.checked);
+}
 
 let ids = [];
 const pluralize = (count, noun, suffix = "s") => `${noun}${count !== 1 ? suffix : ""}`;
@@ -36,7 +38,7 @@ removeButton.click(function() {
                         let removedRow = $("tr#" + ids[i]);
                         removedRow.css("background-color", "#ccc");
                         removedRow.fadeOut("slow");
-                        removedCheckbox = $("input[type='checkbox'][value=" + ids[i] + "]");
+                        let removedCheckbox = $("input[type='checkbox'][value=" + ids[i] + "]");
                         removedCheckbox.prop("checked", false);
                     }
                 },
