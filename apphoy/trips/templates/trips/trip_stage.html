@@ -38,8 +38,8 @@
     <table class="item-list">
         <thead>
             <tr class="header">
-                <th>
-                    <input type="checkbox" id="select-all"/>
+                <th onclick="selectAll(this.firstElementChild);">
+                    <input type="checkbox" />
                 </th>
                 {% for h in headers %}
                     <th>{{ h }}</th>

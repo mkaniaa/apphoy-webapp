@@ -17,11 +17,11 @@
 
 .item-list tr:hover {
     background-color: #ddd;
-    cursor:pointer;
 }
 
 .item-list td:hover input {
-    cursor:pointer;
+    cursor: pointer;
+    pointer-events: none;
 }
 
 .item-list .header {
@@ -47,6 +47,10 @@
 
 .item-list tr td {
     white-space: nowrap;
+}
+
+.item-list input[type="checkbox"] {
+    pointer-events: none;
 }
 
 .check-cell {
