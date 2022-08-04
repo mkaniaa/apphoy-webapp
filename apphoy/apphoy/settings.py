@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'fontawesomefree',
     'persons.apps.PersonsConfig',
     'trips.apps.TripsConfig',
+    'accommodation.apps.AccommodationConfig',
     'common.apps.CommonConfig',
 ]
 
