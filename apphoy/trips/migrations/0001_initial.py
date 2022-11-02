@@ -32,7 +32,6 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=200, unique=True, verbose_name='Name')),
-                ('order', models.PositiveIntegerField(verbose_name='Order')),
                 ('start_date', models.DateField(blank=True, null=True, verbose_name='Start date')),
                 ('end_date', models.DateField(blank=True, null=True, verbose_name='End date')),
                 ('start_address', models.CharField(blank=True, max_length=100, null=True, verbose_name='Start address')),
