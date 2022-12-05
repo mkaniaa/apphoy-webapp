@@ -72,20 +72,20 @@ class TripStageManageView(DashboardListMixin, LoginRequiredMixin, ListView):
         self.trip_stage_pk = kwargs.get(self.pk_url_name)
         return super(TripStageManageView, self).get(request, *args, **kwargs)
 
-    def render_add_view(self, request, kwargs):
+    def render_add_view(self, request, **kwargs):
         return self.get_add_view().as_view()(
             request,
             trip_pk=self.kwargs.get("trip_pk")
         )
 
-    def render_edit_view(self, request, kwargs):
+    def render_edit_view(self, request, **kwargs):
         return self.get_edit_view().as_view()(
             request,
             trip_pk=kwargs["trip_pk"],
             trip_stage_pk=kwargs["trip_stage_pk"],
         )
 
-    def render_delete_view(self, request, kwargs):
+    def render_delete_view(self, request, **kwargs):
         return self.get_delete_view().as_view()(
             request,
             trip_pk=self.kwargs.get("trip_pk")

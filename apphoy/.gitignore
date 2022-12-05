@@ -1,3 +1,4 @@
 .env
-.env_apphoy
+.coveragerc
 /htmlcov/
+/data/

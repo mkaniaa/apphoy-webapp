@@ -12,16 +12,35 @@ class ManagePersonMixin(ManageDashboardMixin):
     model = Person
     main_list_url_name = "person_list"
     fields = get_field_names(model, exclude=['id'])
+    manage_view_obj = None
 
 
 class PersonAddView(ManagePersonMixin, CreateView):
     fields = None  # Specifying both 'fields' and 'form_class' is not permitted.
     permission_required = "persons.add_person"
     form_class = PersonManageForm
+    template_name = "base/dashboard_base.html"  # Must be specified in case of invalid form.
+
+    def form_invalid(self, form):
+        """
+        Method must be overwritten to get context from the main list view.
+        """
+        self.manage_view_obj.form = form
+        context = self.manage_view_obj.get_context_data()
+        return self.render_to_response(context)
 
 
 class PersonEditView(ManagePersonMixin, DashboardEditMixin, UpdateView):
     permission_required = "persons.change_person"
+    template_name = "base/dashboard_base.html"  # Must be specified in case of invalid form.
+
+    def form_invalid(self, form):
+        """
+        Method must be overwritten to get context from the main list view.
+        """
+        self.manage_view_obj.form = form
+        context = self.manage_view_obj.get_context_data()
+        return self.render_to_response(context)
 
 
 class PersonDeleteView(ManagePersonMixin, DashboardDeleteMixin, View):

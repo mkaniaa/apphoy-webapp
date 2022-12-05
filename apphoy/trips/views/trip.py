@@ -16,12 +16,22 @@ class ManageTripMixin(ManageDashboardMixin):
     model = Trip
     main_list_url_name = "trip_list"
     fields = get_field_names(model, exclude=["id", "stages"])
+    manage_view_obj = None
 
 
 class TripAddView(ManageTripMixin, CreateView):
     fields = None  # Specifying both "fields" and "form_class" is not permitted.
     permission_required = "trips.add_trip"
     form_class = TripManageForm
+    template_name = "base/dashboard_base.html"  # Must be specified in case of invalid form.
+
+    def form_invalid(self, form):
+        """
+        Method must be overwritten to get context from the main list view.
+        """
+        self.manage_view_obj.form = form
+        context = self.manage_view_obj.get_context_data()
+        return self.render_to_response(context)
 
 
 class TripEditView(
@@ -65,7 +75,7 @@ class TripManageView(DashboardListMixin, LoginRequiredMixin, ListView):
     form = TripManageForm
     pk_url_name = "trip_pk"
 
-    def render_edit_view(self, request, kwargs):
+    def render_edit_view(self, request, **kwargs):
         return self.get_edit_view().as_view()(
             request,
             trip_pk=kwargs[self.pk_url_name],

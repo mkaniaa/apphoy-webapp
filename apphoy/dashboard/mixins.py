@@ -18,11 +18,11 @@ class DashboardListMixin:
     form = None
     template_name = "base/dashboard_base.html"
     pk_url_name = "pk"
+    object_list = None
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        order_by = self.request.GET.get("sort_by")
-        if order_by:
+        if order_by := self.request.GET.get("sort_by"):
             return queryset.order_by(order_by)
 
         return queryset
@@ -41,29 +41,37 @@ class DashboardListMixin:
         return context
 
     def post(self, request, *args, **kwargs):
+        # Needed when a page needs to be refreshed without a GET call (e.g., an invalid form).
+        self.object_list = self.get_queryset()
+
         try:
             if request.POST["action"] == "Add":
-                return self.render_add_view(request, kwargs)
+                return self.render_add_view(request, **kwargs)
             elif request.POST["action"] == "Update":
-                return self.render_edit_view(request, kwargs)
+                return self.render_edit_view(request, **kwargs)
             else:
-                return self.render_delete_view(request, kwargs)
+                return self.render_delete_view(request, **kwargs)
 
         except PermissionDenied:
             messages.error(request, "You have no permission for this action!")
             status = 403 if request.POST["action"] == "Delete" else 302
             return HttpResponseRedirect(request.path_info, status=status)
 
-    def render_add_view(self, request, kwargs):
-        return self.get_add_view().as_view()(request)
+    def render_add_view(self, request, **kwargs):
+        """
+        The add view uses manage_view_obj to get a new context from the main list view
+        in case of an invalid form.
+        """
+        add_view = self.get_add_view()
+        add_view.manage_view_obj = self
+        return add_view.as_view()(request)
 
-    def render_edit_view(self, request, kwargs):
-        return self.get_edit_view().as_view()(
-            request,
-            pk=kwargs[self.pk_url_name]
-        )
+    def render_edit_view(self, request, **kwargs):
+        edit_view = self.get_edit_view()
+        edit_view.manage_view_obj = self
+        return edit_view.as_view()(request, pk=kwargs[self.pk_url_name])
 
-    def render_delete_view(self, request, kwargs):
+    def render_delete_view(self, request, **kwargs):
         return self.get_delete_view().as_view()(request)
 
     def get_add_view(self):
