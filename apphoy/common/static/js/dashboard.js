@@ -4,13 +4,10 @@ let table = $(".item-list")
 let headerChecks = table.find("th").has("input[type='checkbox']")
 let checkboxCells = headerChecks.add(table.find("td").has("input[type='checkbox']"))
 
-checkboxes.click(function() {
-    removeButton.prop("disabled", !checkboxes.is(":checked"));
-});
-
 checkboxCells.on("click", function() {
     let checkbox = $(this).find("input[type='checkbox']");
     checkbox.prop("checked", !checkbox.prop("checked"));
+    removeButton.prop("disabled", !checkboxes.is(":checked"));
 });
 
 function selectAll(selectAllCheckbox)

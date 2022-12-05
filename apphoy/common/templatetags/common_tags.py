@@ -9,6 +9,7 @@ def attribute_value(obj, attr_name):
     Returns attribute value of the object if exists any with the name given as a string.
     """
     try:
+        attr_name = attr_name.lstrip("_")
         return getattr(obj, attr_name)
     except AttributeError:
         return None
